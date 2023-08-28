@@ -13,6 +13,7 @@
                             <li class="{{ Request::is('users*') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/users') }}"><i class="fas fa-users-cog"></i> <span>Users</span></a></li>
                             <li class="{{ Request::is('kelas*') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/kelas') }}"><i class="fas fa-chair"></i> <span>Kelas</span></a></li>
                             <li class="{{ Request::is('santri*') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/santri') }}"><i class="fas fa-user"></i> <span>Santri</span></a></li>
+                            <li class="{{ Request::is('mapel*') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/mapel') }}"><i class="fas fa-book"></i> <span>Mata Pelajaran</span></a></li>
                             <li class="menu-header"><i>Auth</i></li>
                             <li class="{{ Request::is('permissions*') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/permissions') }}"><i class="fas fa-key"></i> <span>Permissions</span></a></li>
                             <li class="{{ Request::is('roles*') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/roles') }}"><i class="fas fa-user-tag"></i> <span>Roles</span></a></li>

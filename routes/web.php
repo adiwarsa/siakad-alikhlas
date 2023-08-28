@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\MyAccountController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -36,6 +37,7 @@ Route::resource('/roles', RoleController::class)->middleware('auth');
 Route::resource('/users', UserController::class)->middleware('auth');
 Route::resource('/kelas', KelasController::class)->middleware('auth');
 Route::resource('/santri', SantriController::class)->middleware('auth');
+Route::resource('/mapel', MataPelajaranController::class)->middleware('auth');
 Route::get('/my-account', [MyAccountController::class, 'show'])->middleware('auth');
 Route::post('/my-account', [MyAccountController::class, 'updateAccount'])->middleware('auth');
 Route::post('/my-account/update-password', [MyAccountController::class, 'updatePassword'])->middleware('auth');
