@@ -75,6 +75,13 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
+                                    <label>KKM</label>
+                                    <input name="kkm" type="number" class="form-control @error('kkm') is-invalid @enderror" value="{{ old('kkm') }}">
+                                    @error('kkm')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                             </div>
                                 <div class="text-center mt-4">
                                     <button type="submit" class="btn btn-icon icon-left btn-primary"><i class="fas fa-save"></i> Simpan</button>

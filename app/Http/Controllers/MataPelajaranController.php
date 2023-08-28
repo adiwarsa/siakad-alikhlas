@@ -48,6 +48,7 @@ class MataPelajaranController extends Controller
             'nama' => 'required',
             'kode' => 'required',
             'jenjang' => 'required', 
+            'kkm' => 'required'
         ];
 
 
@@ -56,6 +57,7 @@ class MataPelajaranController extends Controller
             'nama.required' => 'Field nama belum diisi!',
             'kode.required' => 'Field kode belum diisi!',
             'jenjang.required' => 'Field jenjang belum diisi!',
+            'kkm.required' => 'Field kkm belum diisi!'
         ];
 
         $this->validate($request, $rules, $customMessages);
@@ -65,6 +67,7 @@ class MataPelajaranController extends Controller
             'kode' => $request->kode,
             'nama' => $request->nama,
             'jenjang' => $request->jenjang,
+            'kkm' => $request->kkm,
 
         ]);
 
@@ -113,6 +116,7 @@ class MataPelajaranController extends Controller
             'nama' => 'required',
             'kode' => 'required',
             'jenjang' => 'required', 
+            'kkm' => 'required',
         ];
 
 
@@ -121,6 +125,7 @@ class MataPelajaranController extends Controller
             'nama.required' => 'Field nama belum diisi!',
             'kode.required' => 'Field kode belum diisi!',
             'jenjang.required' => 'Field jenjang belum diisi!',
+            'kkm.required' => 'Field kkm belum diisi!'
         ];
 
         $mapel = MataPelajaran::findOrFail($id);
@@ -131,6 +136,7 @@ class MataPelajaranController extends Controller
             'kode' => $request->kode,
             'nama' => $request->nama,
             'jenjang' => $request->jenjang,
+            'kkm' => $request->kkm,
 
         ]);
         return redirect('/mapel')->with('message', 'Data telah diubah');

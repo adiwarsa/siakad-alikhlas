@@ -77,6 +77,13 @@
                                                 {{ $message }}
                                             </div>
                                         @enderror
+                                        <label>KKM</label>
+                                        <input name="kkm" type="text" class="form-control @error('kkm') is-invalid @enderror" value="{{ old('kkm', $mapel->kkm) }}">
+                                        @error('kkm')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                 </div>
                                 
                                 <div class="text-center">

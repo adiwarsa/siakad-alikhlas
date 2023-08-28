@@ -13,7 +13,8 @@ class MataPelajaran extends Model
         'id_user',
         'nama', 
         'kode',
-        'jenjang'
+        'jenjang',
+        'kkm'
     ];
 
     public function user()

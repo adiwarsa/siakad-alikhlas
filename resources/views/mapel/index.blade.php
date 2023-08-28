@@ -46,6 +46,7 @@
                                             <th>Guru</th>
                                             <th>Kode</th>
                                             <th>Jenjang</th>
+                                            <th>KKM</th>
                                             <th>#</th>
                                         </tr>
                                     </thead>
@@ -61,6 +62,7 @@
                                             <td>{{ $mpl->user->name }}</td>
                                             <td>{{ $mpl->kode }}</td>
                                             <td>{{ $mpl->jenjang }} </td>
+                                            <td>{{ $mpl->kkm }} </td>
                                             <td>
                                                     <a href="{{ url('/mapel/' .$mpl->id. '/edit') }}" class="btn btn-icon btn-warning"><i class="far fa-edit"></i></a>
                                                 <button class="btn btn-icon btn-danger delete-mapel" data-toggle="modal" data-target="#data-modal-delete" data-id="{{ $mpl->id }}"><i class="fas fa-times"></i></button>
