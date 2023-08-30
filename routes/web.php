@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsenSantriController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KelasController;
@@ -40,6 +41,10 @@ Route::resource('/kelas', KelasController::class)->middleware('auth');
 Route::resource('/santri', SantriController::class)->middleware('auth');
 Route::resource('/mapel', MataPelajaranController::class)->middleware('auth');
 Route::resource('/jadwal', JadwalController::class)->middleware('auth');
+Route::get('/jadwal/{id}/absen', [AbsenSantriController::class, 'create'])->middleware('auth')->name('absen.create');
+Route::get('/jadwal/{id}/absen/edit', [AbsenSantriController::class, 'edit'])->middleware('auth')->name('absen.edit');
+Route::post('/jadwal/{id}/absen', [AbsenSantriController::class, 'store'])->middleware('auth')->name('absensisantri');
+Route::delete('/jadwal/{id}/absen/edit', [AbsenSantriController::class, 'destroy'])->name('absen.destroy');
 Route::get('/my-account', [MyAccountController::class, 'show'])->middleware('auth');
 Route::post('/my-account', [MyAccountController::class, 'updateAccount'])->middleware('auth');
 Route::post('/my-account/update-password', [MyAccountController::class, 'updatePassword'])->middleware('auth');

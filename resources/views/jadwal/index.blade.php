@@ -48,6 +48,7 @@
                                             <th>Kelas</th>
                                             <th>Tanggal</th>
                                             <th>Jam</th>
+                                            <th>Status</th>
                                             <th>#</th>
                                         </tr>
                                     </thead>
@@ -60,11 +61,21 @@
                                         <tr>
                                             <td class="text-center">{{ $no++ }}</td>
                                             <td>{{ $jdwl->hari->nama_hari }}</td>
+                                            @if ($jdwl->status == 0)
+                                            <td><a href="{{ route('absen.create', ['id' => $jdwl->id]) }}">{{ $jdwl->mapel->nama }}</a></td>
+                                            @else
                                             <td>{{ $jdwl->mapel->nama }}</td>
+                                            @endif
                                             <td>{{ $jdwl->guru->name }}</td>
                                             <td>{{ $jdwl->kelas->kelas }} || {{ $jdwl->kelas->madrasah }}</td>
                                             <td>{{ $jdwl->formatted_tanggal }} </td>
                                             <td>{{ $jdwl->jam_mulai }} - {{ $jdwl->jam_selesai }} </td>
+                                            @if ($jdwl->status == 1)
+                                            <td> <a href="{{ route('absen.edit', ['id' => $jdwl->id]) }}" style="text-decoration: none;" class="badge bg-success text-dark">Sudah Absen</a> </td> 
+                                            @else
+                                            <td> <span class="badge bg-warning text-dark" >Belum Absen</span> </td> 
+                                            @endif
+                                            
                                             <td>
                                                     <a href="{{ url('/jadwal/' .$jdwl->id. '/edit') }}" class="btn btn-icon btn-warning"><i class="far fa-edit"></i></a>
                                                 <button class="btn btn-icon btn-danger delete-jadwal" data-toggle="modal" data-target="#data-modal-delete" data-id="{{ $jdwl->id }}"><i class="fas fa-times"></i></button>

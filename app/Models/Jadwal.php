@@ -18,7 +18,8 @@ class Jadwal extends Model
         'guru_id', 
         'jam_mulai', 
         'jam_selesai', 
-        'tanggal'
+        'tanggal',
+        'status'
     ];
     protected $appends = [
       'formatted_tanggal', 
@@ -26,20 +27,20 @@ class Jadwal extends Model
       'formatted_updated_at',
   ];
   
-  //Mengubah format tanggal tanggal menjadi Hari, tanggal bulan tahun, 
-  public function getFormattedTanggalAttribute(): string {
-      return Carbon::parse($this->tanggal)->isoFormat('D MMMM YYYY');
-  }
+    //Mengubah format tanggal tanggal menjadi Hari, tanggal bulan tahun, 
+    public function getFormattedTanggalAttribute(): string {
+        return Carbon::parse($this->tanggal)->isoFormat('D MMMM YYYY');
+    }
 
-   //Mengubah format tanggal created_at menjadi Hari, tanggal bulan tahun, jam menit detik
-  public function getFormattedCreatedAtAttribute(): string {
-      return $this->created_at->isoFormat('dddd, D MMMM YYYY, HH:mm:ss');
-  }
+    //Mengubah format tanggal created_at menjadi Hari, tanggal bulan tahun, jam menit detik
+    public function getFormattedCreatedAtAttribute(): string {
+        return $this->created_at->isoFormat('dddd, D MMMM YYYY, HH:mm:ss');
+    }
 
-  //Mengubah format tanggal updated_at menjadi Hari, tanggal bulan tahun, jam menit detik
-  public function getFormattedUpdatedAtAttribute(): string {
-      return $this->updated_at->isoFormat('dddd, D MMMM YYYY, HH:mm:ss');
-  }
+    //Mengubah format tanggal updated_at menjadi Hari, tanggal bulan tahun, jam menit detik
+    public function getFormattedUpdatedAtAttribute(): string {
+        return $this->updated_at->isoFormat('dddd, D MMMM YYYY, HH:mm:ss');
+    }
 
     public function hari()
     {
@@ -59,5 +60,20 @@ class Jadwal extends Model
     public function guru()
     {
       return $this->belongsTo(User::class, 'guru_id', 'id');
+    }
+
+    public function absensi()
+    {
+        return $this->hasMany(AbsensiSantri::class, 'jadwal_id', 'id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Menghapus record Revisi yang berelasi ketika menghapus jadwal
+        static::deleting(function ($jadwal) {
+            $jadwal->absensi()->delete();
+        });
     }
 }

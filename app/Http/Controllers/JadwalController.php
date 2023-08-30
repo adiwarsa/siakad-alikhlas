@@ -86,6 +86,7 @@ class JadwalController extends Controller
                 'jam_mulai' => $request->input('jam_mulai'),
                 'jam_selesai' => $request->input('jam_selesai'),
                 'tanggal' => $startDate->format('Y-m-d'),
+                'status' => 0,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
