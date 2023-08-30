@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,6 +20,26 @@ class Jadwal extends Model
         'jam_selesai', 
         'tanggal'
     ];
+    protected $appends = [
+      'formatted_tanggal', 
+      'formatted_created_at',
+      'formatted_updated_at',
+  ];
+  
+  //Mengubah format tanggal tanggal menjadi Hari, tanggal bulan tahun, 
+  public function getFormattedTanggalAttribute(): string {
+      return Carbon::parse($this->tanggal)->isoFormat('D MMMM YYYY');
+  }
+
+   //Mengubah format tanggal created_at menjadi Hari, tanggal bulan tahun, jam menit detik
+  public function getFormattedCreatedAtAttribute(): string {
+      return $this->created_at->isoFormat('dddd, D MMMM YYYY, HH:mm:ss');
+  }
+
+  //Mengubah format tanggal updated_at menjadi Hari, tanggal bulan tahun, jam menit detik
+  public function getFormattedUpdatedAtAttribute(): string {
+      return $this->updated_at->isoFormat('dddd, D MMMM YYYY, HH:mm:ss');
+  }
 
     public function hari()
     {

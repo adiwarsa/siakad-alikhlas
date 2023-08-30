@@ -63,7 +63,7 @@
                                             <td>{{ $jdwl->mapel->nama }}</td>
                                             <td>{{ $jdwl->guru->name }}</td>
                                             <td>{{ $jdwl->kelas->kelas }} || {{ $jdwl->kelas->madrasah }}</td>
-                                            <td>{{ $jdwl->tanggal }} </td>
+                                            <td>{{ $jdwl->formatted_tanggal }} </td>
                                             <td>{{ $jdwl->jam_mulai }} - {{ $jdwl->jam_selesai }} </td>
                                             <td>
                                                     <a href="{{ url('/jadwal/' .$jdwl->id. '/edit') }}" class="btn btn-icon btn-warning"><i class="far fa-edit"></i></a>
