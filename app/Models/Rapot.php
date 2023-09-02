@@ -14,9 +14,13 @@ class Rapot extends Model
         'guru_id',
         'kelas_id', 
         'mapel_id',
-        'nilai_ganjil', 
-        'nilai_genap', 
-        'predikat_genap', 
-        'predikat_ganjil'
+        'pn_ganjil', 
+        'pn_genap', 
+        'predikatn_ganjil', 
+        'predikatn_genap',
+        'pp_ganjil', 
+        'pp_genap', 
+        'predikatp_ganjil', 
+        'predikatp_genap'
     ];
 }
