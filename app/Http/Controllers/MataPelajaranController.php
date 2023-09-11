@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kelas;
 use App\Models\MataPelajaran;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ class MataPelajaranController extends Controller
     public function create()
     {
         $data['pageTitle'] = 'Tambah Data Mata Pelajaran';
+        $data['kelas'] = Kelas::all();
         $data['guru'] = User::whereHas('roles', function ($query) {
             $query->where('name', 'guru');
         })->get();
@@ -45,31 +47,37 @@ class MataPelajaranController extends Controller
     {
         $rules = [
             'id_user' => 'required',
+            'id_kelas' => 'required',
             'nama' => 'required',
             'kode' => 'required',
-            'jenjang' => 'required', 
             'kkm' => 'required'
+            // 'jenjang' => 'required', 
         ];
 
 
         $customMessages = [
             'id_user.required' => 'Field guru belum diisi!',
+            'id_kelas.required' => 'Field kelas belum diisi!',
             'nama.required' => 'Field nama belum diisi!',
             'kode.required' => 'Field kode belum diisi!',
-            'jenjang.required' => 'Field jenjang belum diisi!',
             'kkm.required' => 'Field kkm belum diisi!'
+            // 'jenjang.required' => 'Field jenjang belum diisi!',
         ];
 
         $this->validate($request, $rules, $customMessages);
 
         $mapel = MataPelajaran::create([
             'id_user' => $request->id_user,
+            'id_kelas' => $request->id_kelas,
             'kode' => $request->kode,
             'nama' => $request->nama,
-            'jenjang' => $request->jenjang,
             'kkm' => $request->kkm,
 
         ]);
+        $kelas = Kelas::find($request->id_kelas);
+        $mapel->jenjang = $kelas->madrasah;
+       
+        $mapel->save();
 
         return redirect('/mapel')->with('message', 'Data telah ditambahkan');
     }
@@ -95,6 +103,7 @@ class MataPelajaranController extends Controller
     {
         $data['pageTitle'] = 'Ubah Data Mata Pelajaran';
         $data['mapel'] = MataPelajaran::findOrFail($id);
+        $data['kelas'] = Kelas::all();
         $data['guru'] = User::whereHas('roles', function ($query) {
             $query->where('name', 'guru');
         })->get();
@@ -113,19 +122,21 @@ class MataPelajaranController extends Controller
     {
         $rules = [
             'id_user' => 'required',
+            'id_kelas' => 'required',
             'nama' => 'required',
             'kode' => 'required',
-            'jenjang' => 'required', 
             'kkm' => 'required',
+            // 'jenjang' => 'required', 
         ];
 
 
         $customMessages = [
             'id_user.required' => 'Field guru belum diisi!',
+            'id_kelas.required' => 'Field kelas belum diisi!',
             'nama.required' => 'Field nama belum diisi!',
             'kode.required' => 'Field kode belum diisi!',
-            'jenjang.required' => 'Field jenjang belum diisi!',
             'kkm.required' => 'Field kkm belum diisi!'
+            // 'jenjang.required' => 'Field jenjang belum diisi!',
         ];
 
         $mapel = MataPelajaran::findOrFail($id);
@@ -133,12 +144,18 @@ class MataPelajaranController extends Controller
 
         $mapel->update([
             'id_user' => $request->id_user,
+            'id_kelas' => $request->id_kelas,
             'kode' => $request->kode,
             'nama' => $request->nama,
-            'jenjang' => $request->jenjang,
             'kkm' => $request->kkm,
 
         ]);
+
+        $kelas = Kelas::find($request->id_kelas);
+        $mapel->jenjang = $kelas->madrasah;
+       
+        $mapel->save();
+        
         return redirect('/mapel')->with('message', 'Data telah diubah');
     }
 
