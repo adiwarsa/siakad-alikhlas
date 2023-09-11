@@ -45,6 +45,7 @@
                                             <th>Nama Mapel</th>
                                             <th>Guru</th>
                                             <th>Kode</th>
+                                            <th>Kelas</th>
                                             <th>Jenjang</th>
                                             <th>KKM</th>
                                             <th>#</th>
@@ -61,6 +62,7 @@
                                             <td>{{ $mpl->nama }}</td>
                                             <td>{{ $mpl->user->name }}</td>
                                             <td>{{ $mpl->kode }}</td>
+                                            <td>{{ $mpl->kelas->kelas }} </td>
                                             <td>{{ $mpl->jenjang }} </td>
                                             <td>{{ $mpl->kkm }} </td>
                                             <td>

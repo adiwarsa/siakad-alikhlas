@@ -45,13 +45,13 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                    <label>Jenjang</label>
-                                    <select class="form-control selectric @error('jenjang') is-invalid @enderror" name="jenjang">
-                                        <option value=""> -- Jenjang --</option>
-                                        <option value="MA. AL-IKHLAS" {{ old('jenjang') === 'MA. AL-IKHLAS' ? 'selected' : '' }}>MA. AL-IKHLAS</option>
-                                        <option value="MTs. AL-IKHLAS" {{ old('jenjang') === 'MTs. AL-IKHLAS' ? 'selected' : '' }}>MTs. AL-IKHLAS</option>
+                                    <label>Kelas</label>
+                                    <select class="form-control selectric @error('id_kelas') is-invalid @enderror" name="id_kelas">
+                                        @foreach ($kelas as $kls)
+                                        <option value="{{ $kls->id }}" {{ old('id_kelas', $kls->id) == $kls->id ? 'selected' : '' }}>{{ $kls->kelas }} {{ $kls->madrasah }}</option>
+                                        @endforeach
                                     </select>
-                                    @error('jenjang')
+                                    @error('id_kelas')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
