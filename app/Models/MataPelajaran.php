@@ -11,6 +11,7 @@ class MataPelajaran extends Model
     protected $table = 'mapel';
     protected $fillable = [
         'id_user',
+        'id_kelas',
         'nama', 
         'kode',
         'jenjang',
@@ -20,5 +21,9 @@ class MataPelajaran extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
+    }
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'id_kelas');
     }
 }
