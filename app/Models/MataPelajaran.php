@@ -18,6 +18,10 @@ class MataPelajaran extends Model
         'kkm'
     ];
 
+    public function nilai()
+    {
+        return $this->hasOne(Nilai::class, 'id_mapel');
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');

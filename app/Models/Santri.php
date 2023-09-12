@@ -46,4 +46,8 @@ class Santri extends Model
         return $this->belongsTo(Kelas::class, 'id_kelas', 'id');
 
     }
+    public function rapots()
+    {
+        return $this->hasMany(Rapot::class, 'santri_id');
+    }
 }

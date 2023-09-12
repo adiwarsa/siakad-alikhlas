@@ -19,4 +19,9 @@ class Kelas extends Model
     {
         return $this->hasMany(Santri::class, 'id_kelas', 'id');
     }
+    public function mapels()
+    {
+        return $this->hasMany(MataPelajaran::class, 'id_kelas');
+        
+    }
 }

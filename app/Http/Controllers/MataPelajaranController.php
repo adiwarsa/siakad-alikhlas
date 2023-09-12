@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use App\Models\MataPelajaran;
+use App\Models\Nilai;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -35,6 +36,46 @@ class MataPelajaranController extends Controller
         })->get();
 
         return view('mapel.create', $data);
+    }
+
+    public function createnilai($id)
+    {
+        $data['mapel'] = MataPelajaran::findOrFail($id);
+        $namamapel = $data['mapel']->nama;
+        $data['pageTitle'] = 'Tambah Data KKM Nilai Pelajaran ' .$namamapel;
+
+        return view('mapel.createnilai', $data);
+    }
+
+    public function storenilai(Request $request, $id)
+    {
+
+        $mapel = MataPelajaran::findOrFail($id);
+        $rules = [
+            'descpredikata' => 'required',
+            'descpredikatb' => 'required',
+            'descpredikatc' => 'required',
+            'descpredikatd' => 'required',
+        ];
+
+        $customMessages = [
+            'descpredikata.required' => 'Field Predikat A belum diisi!',
+            'descpredikatb.required' => 'Field Predikat B belum diisi!',
+            'descpredikatc.required' => 'Field Predikat C belum diisi!',
+            'descpredikatd.required' => 'Field Predikat C belum diisi!',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
+        $nilai = Nilai::create([
+            'id_mapel' => $id,
+            'kkm' => $mapel->kkm,
+            'descpredikata' => $request->descpredikata,
+            'descpredikatb' => $request->descpredikatb,
+            'descpredikatc' => $request->descpredikatc,
+            'descpredikatd' => $request->descpredikatd,
+
+        ]);
+  
     }
 
     /**
