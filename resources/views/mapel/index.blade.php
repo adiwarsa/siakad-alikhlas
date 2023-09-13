@@ -47,7 +47,7 @@
                                             <th>Kode</th>
                                             <th>Kelas</th>
                                             <th>Jenjang</th>
-                                            <th>KKM</th>
+                                            <th>Kriteria Ketuntasan</th>
                                             <th>#</th>
                                         </tr>
                                     </thead>
@@ -64,7 +64,16 @@
                                             <td>{{ $mpl->kode }}</td>
                                             <td>{{ $mpl->kelas->kelas }} </td>
                                             <td>{{ $mpl->jenjang }} </td>
-                                            <td>{{ $mpl->kkm }} </td>
+                                            <td>
+                                                @if ($mpl->nilai)
+                                                    <a href="{{ route('nilai.edit', ['id' => $mpl->id]) }}" class="btn btn-icon btn-primary">
+                                                        <i class="">Lihat</i>
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('nilai.create', ['id' => $mpl->id]) }}" class="btn btn-icon btn-danger">
+                                                        <i class="">Buat</i>
+                                                    </a>
+                                                @endif
                                             <td>
                                                     <a href="{{ url('/mapel/' .$mpl->id. '/edit') }}" class="btn btn-icon btn-warning"><i class="far fa-edit"></i></a>
                                                 <button class="btn btn-icon btn-danger delete-mapel" data-toggle="modal" data-target="#data-modal-delete" data-id="{{ $mpl->id }}"><i class="fas fa-times"></i></button>

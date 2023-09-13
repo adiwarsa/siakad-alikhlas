@@ -35,30 +35,31 @@
                             <h4>KKM Nilai {{ $namamapel }} </h4>
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="{{ route('nilai.store', ['id' => $id]) }}" class="needs-validation" novalidate="">
+                            <form method="POST" action="{{ route('nilai.update', ['id' => $id]) }}" class="needs-validation" novalidate="">
                                 @csrf
+                                @method('PUT') <!-- Use PUT method for updating -->
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="descpredikata">Predikat A</label>
-                                                <input name="descpredikata" type="text" class="form-control @error('descpredikata') is-invalid @enderror" value="{{ old('descpredikata') }}">
-                                                    @error('descpredikata')
-                                                        <div class="invalid-feedback">
-                                                            {{ $message }}
-                                                        </div>
-                                                    @enderror
+                                                <input name="descpredikata" type="text" class="form-control @error('descpredikata') is-invalid @enderror" value="{{ old('descpredikata', $nilai->descpredikata) }}">
+                                                @error('descpredikata')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="descpredikatb">Predikat B</label>
-                                                <input name="descpredikatb" type="text" class="form-control @error('descpredikatb') is-invalid @enderror" value="{{ old('descpredikatb') }}">
-                                                    @error('descpredikatb')
-                                                        <div class="invalid-feedback">
-                                                            {{ $message }}
-                                                        </div>
-                                                    @enderror
+                                                <input name="descpredikatb" type="text" class="form-control @error('descpredikatb') is-invalid @enderror" value="{{ old('descpredikatb', $nilai->descpredikatb) }}">
+                                                @error('descpredikatb')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -66,23 +67,23 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="descpredikatc">Predikat C</label>
-                                                <input name="descpredikatc" type="text" class="form-control @error('descpredikatc') is-invalid @enderror" value="{{ old('descpredikatc') }}">
-                                                    @error('descpredikatc')
-                                                        <div class="invalid-feedback">
-                                                            {{ $message }}
-                                                        </div>
-                                                    @enderror
+                                                <input name="descpredikatc" type="text" class="form-control @error('descpredikatc') is-invalid @enderror" value="{{ old('descpredikatc', $nilai->descpredikatc) }}">
+                                                @error('descpredikatc')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="descpredikatd">Predikat D</label>
-                                                <input name="descpredikatd" type="text" class="form-control @error('descpredikatd') is-invalid @enderror" value="{{ old('descpredikatd') }}">
-                                                    @error('descpredikatd')
-                                                        <div class="invalid-feedback">
-                                                            {{ $message }}
-                                                        </div>
-                                                    @enderror
+                                                <input name="descpredikatd" type="text" class="form-control @error('descpredikatd') is-invalid @enderror" value="{{ old('descpredikatd', $nilai->descpredikatd) }}">
+                                                @error('descpredikatd')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -92,6 +93,7 @@
                                 </div>
                             </form>
                         </div>
+                        
                     </div>
                 </div>
             </div>

@@ -38,13 +38,35 @@ class MataPelajaranController extends Controller
         return view('mapel.create', $data);
     }
 
+    public function edit($id)
+    {
+        $data['pageTitle'] = 'Ubah Data Mata Pelajaran';
+        $data['mapel'] = MataPelajaran::findOrFail($id);
+        $data['kelas'] = Kelas::all();
+        $data['guru'] = User::whereHas('roles', function ($query) {
+            $query->where('name', 'guru');
+        })->get();
+
+        return view('mapel.edit', $data);
+    }
+
     public function createnilai($id)
     {
-        $data['mapel'] = MataPelajaran::findOrFail($id);
-        $namamapel = $data['mapel']->nama;
-        $data['pageTitle'] = 'Tambah Data KKM Nilai Pelajaran ' .$namamapel;
+        $mapel = MataPelajaran::findOrFail($id);
+        $namamapel = $mapel->nama;
+        $pageTitle = 'Tambah Data KKM Nilai Pelajaran ' .$namamapel;
 
-        return view('mapel.createnilai', $data);
+        return view('mapel.createnilai',compact('namamapel', 'id', 'pageTitle'));
+    }
+
+    public function editnilai($id)
+    {
+        $mapel = MataPelajaran::findOrFail($id);
+        $nilai = Nilai::where('id_mapel', $id)->first();
+        $namamapel = $mapel->nama;
+        $pageTitle = 'Edit Data KKM Nilai Pelajaran ' .$namamapel;
+
+        return view('mapel.editnilai',compact('namamapel', 'id', 'pageTitle', 'nilai'));
     }
 
     public function storenilai(Request $request, $id)
@@ -75,6 +97,41 @@ class MataPelajaranController extends Controller
             'descpredikatd' => $request->descpredikatd,
 
         ]);
+
+    return redirect('/mapel')->with('message', 'Data Nilai telah ditambahkan');
+    }
+
+    public function updatenilai(Request $request, $id)
+    {
+
+        $mapel = MataPelajaran::findOrFail($id);
+        $rules = [
+            'descpredikata' => 'required',
+            'descpredikatb' => 'required',
+            'descpredikatc' => 'required',
+            'descpredikatd' => 'required',
+        ];
+
+        $customMessages = [
+            'descpredikata.required' => 'Field Predikat A belum diisi!',
+            'descpredikatb.required' => 'Field Predikat B belum diisi!',
+            'descpredikatc.required' => 'Field Predikat C belum diisi!',
+            'descpredikatd.required' => 'Field Predikat C belum diisi!',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
+
+        $nilai = Nilai::where('id_mapel', $id)->first();
+        $nilai->update([
+            'id_mapel' => $id,
+            'kkm' => $mapel->kkm,
+            'descpredikata' => $request->descpredikata,
+            'descpredikatb' => $request->descpredikatb,
+            'descpredikatc' => $request->descpredikatc,
+            'descpredikatd' => $request->descpredikatd,
+        ]);
+
+        return redirect('/mapel')->with('message', 'Data Nilai telah berhasil dirubah');
   
     }
 
@@ -140,17 +197,6 @@ class MataPelajaranController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $data['pageTitle'] = 'Ubah Data Mata Pelajaran';
-        $data['mapel'] = MataPelajaran::findOrFail($id);
-        $data['kelas'] = Kelas::all();
-        $data['guru'] = User::whereHas('roles', function ($query) {
-            $query->where('name', 'guru');
-        })->get();
-
-        return view('mapel.edit', $data);
-    }
 
     /**
      * Update the specified resource in storage.
