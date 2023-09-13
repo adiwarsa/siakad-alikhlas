@@ -22,6 +22,7 @@ class MataPelajaran extends Model
     {
         return $this->hasOne(Nilai::class, 'id_mapel');
     }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
@@ -29,5 +30,15 @@ class MataPelajaran extends Model
     public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'id_kelas');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($mapel) {
+            // Delete related 'nilai' records
+            $mapel->nilai()->delete();
+        });
     }
 }
