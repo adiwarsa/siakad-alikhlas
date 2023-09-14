@@ -54,6 +54,17 @@
                                         </div>
                                     @enderror
                                 </div>
+                                <label>Guru Wali</label>
+                                    <select class="form-control selectric @error('wali_id') is-invalid @enderror" name="wali_id">
+                                        @foreach ($guru as $gr)
+                                        <option value="{{ $gr->id }}" {{ old('wali_id', $gr->id) == $gr->id ? 'selected' : '' }}>{{ $gr->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('wali_id')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 <div class="form-group">
                                     <label>Madrasah</label>
                                     <select class="form-control selectric @error('madrasah') is-invalid @enderror" name="madrasah">

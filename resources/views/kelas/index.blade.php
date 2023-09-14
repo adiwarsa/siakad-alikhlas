@@ -42,6 +42,7 @@
                                             <th class="text-center">
                                                 No.
                                             </th>
+                                            <th>Guru Wali</th>
                                             <th>Kelas</th>
                                             <th>Madrasah</th>
                                             <th>#</th>
@@ -55,6 +56,7 @@
                                         @foreach ($kelas as $kls)
                                         <tr>
                                             <td class="text-center">{{ $no++ }}</td>
+                                            <td>{{ $kls->guruwali->name }}</td>
                                             <td>{{ $kls->kelas }}</td>
                                             <td>{{ $kls->madrasah }}</td>
                                             <td>
