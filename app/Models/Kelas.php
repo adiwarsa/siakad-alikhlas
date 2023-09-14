@@ -12,9 +12,14 @@ class Kelas extends Model
     protected $table = 'kelas';
     
     protected $fillable = [
-        'kelas', 'madrasah',
+        'wali_id', 'kelas', 'madrasah',
     ];
 
+    public function guruwali()
+    {
+      return $this->belongsTo(User::class, 'wali_id', 'id');
+    }
+    
     public function santris()
     {
         return $this->hasMany(Santri::class, 'id_kelas', 'id');
