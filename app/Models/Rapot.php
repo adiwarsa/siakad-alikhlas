@@ -11,17 +11,9 @@ class Rapot extends Model
     protected $table = 'rapot';
     protected $fillable = [
         'santri_id',
-        'guru_id',
+        'wali_id',
         'kelas_id', 
-        'mapel_id',
-        'pn_ganjil', //pengetahuan nilai ganjil
-        'pn_genap', //pengetahuan nilai genap
-        'ppredikat_ganjil', //pengetahuan predikat ganjil
-        'ppredikat_genap', //pengetahuan predikat genap
-        'kn_ganjil', //keterampilan nilai ganjil
-        'kn_genap', //keterampilan nilai genap
-        'kpredikat_ganjil', //keterampilan predikat ganjil
-        'kpredikat_genap' //keterampilan predikat genap
+        'semester', 
     ];
 
     public function santri()
@@ -29,9 +21,9 @@ class Rapot extends Model
         return $this->belongsTo(Santri::class, 'santri_id');
     }
 
-    public function guru()
+    public function guruwali()
     {
-        return $this->belongsTo(User::class, 'guru_id');
+      return $this->belongsTo(User::class, 'wali_id', 'id');
     }
 
     public function kelas()
@@ -39,8 +31,19 @@ class Rapot extends Model
         return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 
-    public function mapel()
+    public function nilaiRapots()
     {
-        return $this->belongsTo(Mapel::class, 'mapel_id');
+        return $this->hasMany(NilaiRapot::class, 'raport_id');
+    }
+
+    // Define a cascade delete relationship
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($rapot) {
+            // Delete the associated nilaiRapots
+            $rapot->nilaiRapots()->delete();
+        });
     }
 }
