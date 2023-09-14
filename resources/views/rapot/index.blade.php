@@ -22,12 +22,13 @@
         @endif
 
         <div class="section-body">
+          @forelse ($kelas as $kls)
             <div class="" style="background-color: white">
               <div class="card-body">
-                <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                <footer class="blockquote-footer">Wali : <cite title="Source Title">{{ $kls->guruwali->name }}</cite></footer>
                 <blockquote class="d-flex">
                   <div class="flex-grow-1"> 
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                   <p>{{ $kls->kelas }} - {{ $kls->madrasah }}</p>
                   </div>
                   <div class="ml-auto align-self-start"> 
                     <a href="#" class="btn btn-icon btn-danger">
@@ -38,22 +39,11 @@
             </div>
             <hr>
           </div>
-
-          <div class="" style="background-color: white">
-            <div class="card-body">
-              <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-              <blockquote class="d-flex">
-                <div class="flex-grow-1"> 
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                </div>
-                <div class="ml-auto align-self-start"> 
-                  <a href="#" class="btn btn-icon btn-danger">
-                    <i class="">Lihat</i>
-                  </a>
-                </div>
-              </blockquote>
+          @empty
+          <div class="alert alert-warning">
+              No classes found.
           </div>
-          <hr>
+          @endforelse
         </div>
         </div>
     </section>
