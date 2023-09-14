@@ -48,6 +48,7 @@ Route::get('/mapelnilaiedit/{id}', [MataPelajaranController::class, 'editnilai']
 Route::put('/mapelnilaiedit/{id}', [MataPelajaranController::class, 'updatenilai'])->middleware('auth')->name('nilai.update');
 Route::resource('/mapel', MataPelajaranController::class)->middleware('auth');
 Route::resource('/jadwal', JadwalController::class)->middleware('auth');
+Route::resource('/rapot', RapotController::class)->middleware('auth');
 Route::get('/jadwal/{id}/absen', [AbsenSantriController::class, 'create'])->middleware('auth')->name('absen.create');
 Route::get('/jadwal/{id}/absen/edit', [AbsenSantriController::class, 'edit'])->middleware('auth')->name('absen.edit');
 Route::post('/jadwal/{id}/absen', [AbsenSantriController::class, 'store'])->middleware('auth')->name('absensisantri');

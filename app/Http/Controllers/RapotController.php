@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kelas;
 use App\Models\Rapot;
 use App\Models\Santri;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RapotController extends Controller
@@ -16,7 +18,7 @@ class RapotController extends Controller
     public function index()
     {
         $data['pageTitle'] = 'Rapot Santri';
-        $data['rapotsantri'] = Santri::all();
+        $data['kelas'] = Kelas::all();
         return view('rapot.index', $data);
     }
 
