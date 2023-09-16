@@ -10,7 +10,7 @@
         <div class="section-header">
             <h1>{{ $pageTitle }}</h1>
             <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item"><a href="{{ url()->previous() }}">Rapot Santri</a></div>
+                <div class="breadcrumb-item"><a href="{{ route('list.santri', ['kelasId' => $santri->id_kelas]) }}">Rapot Santri</a></div>
                 <div class="breadcrumb-item active">Tambah Nilai Rapot Santri</div>
             </div>
         </div>
@@ -26,34 +26,61 @@
         </div>
         @endif
 
+        @if(session('error'))
+        <div class="alert alert-danger alert-dismissible show fade">
+            <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                    <span>×</span>
+                </button>
+                {{ session('error') }}
+            </div>
+        </div>
+        @endif
+
         <div class="section-body">
             <div class="row">
                 <div class="col-12 col-md-2"></div>
                 <div class="col-12 col-md-8">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Rapot Santri {{ $santri->nama }} || Semester Ganjil</h4>
+                            <h4>Rapot Santri {{ $santri->nama }} </h4> 
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="#" class="needs-validation" novalidate="">
+                            <form method="POST" action="{{ route('storerapot.santri', ['kelasId' => $santri->id_kelas, 'santriId' => $santri->id]) }}" class="needs-validation" novalidate="">
                                 @csrf
                                 <div class="container">
                                     <div class="row">
+                                        <div class="col">
+                                            <label>Semester</label>
+                                            <select class="form-control selectric @error('semester') is-invalid @enderror" name="semester">
+                                                <option value=""> -- Semester --</option>
+                                                <option value="1" {{ old('semester') === '1' ? 'selected' : '' }}> Semester 1</option>
+                                                <option value="2" {{ old('semester') === '2' ? 'selected' : '' }}>Semester 2</option>
+                                            </select>
+                                            @error('semester')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <input name="santri_id" type="hidden" value="{{ $santri->id }}">
                                         <input name="wali_id" type="hidden" value="{{ $wali }}">
+                                        <input name="kelas_id" type="hidden" value="{{ $santri->id_kelas }}">
                                         @foreach ($mapels as $mapel)
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="mapel">Mata Pelajaran</label>
-                                                <input name="id_mapel[]" type="hidden" value="{{ $mapel->id }}">
+                                                <input name="mapel_ids[]" type="hidden" value="{{ $mapel->id }}">
                                                 <input type="text" class="form-control" value="{{ $mapel->nama }}" autocomplete="off" readonly>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="nilaipengetahuan">Nilai Pengetahuan</label>
-                                                <input name="nilaipengetahuan[{{ $mapel->id }}]" type="number" class="form-control @error('nilaipengetahuan.' . $mapel->id) is-invalid @enderror" value="{{ old('nilaipengetahuan.' . $mapel->id) }}" autocomplete="off">
-                                                @error('nilaipengetahuan.' . $mapel->id)
+                                                <input name="nilaipengetahuans[]" type="number" class="form-control @error('nilaipengetahuans.*') is-invalid @enderror" value="{{ old('nilaipengetahuans.' . $loop->index) }}" autocomplete="off">
+                                                @error('nilaipengetahuans.*')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
@@ -63,8 +90,8 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="nilaiketerampilan">Nilai Keterampilan</label>
-                                                <input name="nilaiketerampilan[{{ $mapel->id }}]" type="number" class="form-control @error('nilaiketerampilan.' . $mapel->id) is-invalid @enderror" value="{{ old('nilaiketerampilan.' . $mapel->id) }}" autocomplete="off">
-                                                @error('nilaiketerampilan.' . $mapel->id)
+                                                <input name="nilaiketerampilans[]" type="number" class="form-control @error('nilaiketerampilans.*') is-invalid @enderror" value="{{ old('nilaiketerampilans.' . $loop->index) }}" autocomplete="off">
+                                                @error('nilaiketerampilans.*')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
