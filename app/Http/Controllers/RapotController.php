@@ -57,21 +57,37 @@ class RapotController extends Controller
      */
     public function storeRapot(Request $request)
     {
-        $request->validate([
+
+        $existingRapot = Rapot::where('santri_id', $request->santri_id)
+        ->where('semester', $request->semester)
+        ->where('kelas_id', $request->kelas_id)
+        ->first();
+
+        if ($existingRapot) {
+            // A record already exists, display an error message
+            return redirect()->back()->with('error', 'Rapot semester 1 sudah ada !.');
+        }
+        $rules = [
             'santri_id' => 'required',
+            'semester' => 'required',
             'mapel_ids' => 'required|array',
             'nilaipengetahuans' => 'required|array',
             'nilaiketerampilans' => 'required|array',
-            'predikatpengetahuans' => 'required|array',
-            'predikatketerampilans' => 'required|array',
-        ]);
+        ];
+
+        $customMessages = [
+            'semester.required' => 'Field Semester belum diisi!',
+            'nilaipengetahuans.required' => 'Field Nilai Pengetahuan ada yang belum diisi!',
+            'nilaiketerampilans.required' => 'Field Nilai Keterampilan ada yang belum diisi!',
+        ];
     
+        $this->validate($request, $rules, $customMessages);
         // Create a new Rapot
         $rapot = Rapot::create([
             'santri_id' => $request->santri_id,
             'wali_id' => $request->wali_id,
             'kelas_id' => $request->kelas_id,
-            'semester' => 1,
+            'semester' => $request->semester,
         ]);
        
         // Loop through each mapel and create associated nilaiRapot records
@@ -113,6 +129,13 @@ class RapotController extends Controller
                 'predikatketerampilan' => $predikatKeterampilan,
             ]);
         }
+        return redirect('/rapot/' . $request->kelas_id . '/santri')->with('message', 'Data Nilai Rapot telah ditambahkan');
+    }
+
+    public function rapotSantri()
+    {
+        $data['pageTitle'] = "Test";
+        return view('rapot.rapotsantri', $data);
     }
 
     /**
