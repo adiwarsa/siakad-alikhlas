@@ -31,7 +31,7 @@
                    <p>{{ $kls->kelas }} - {{ $kls->madrasah }}</p>
                   </div>
                   <div class="ml-auto align-self-start"> 
-                    <a href="#" class="btn btn-icon btn-danger">
+                    <a href="{{ route('list.santri', ['kelasId' => $kls->id]) }}" class="btn btn-icon btn-danger">
                       <i class="">Lihat</i>
                     </a>
                   </div>
