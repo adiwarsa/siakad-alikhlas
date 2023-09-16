@@ -12,14 +12,10 @@ class NilaiRapot extends Model
         'rapot_id',
         'guru_id',
         'mapel_id',
-        'pn_ganjil', //pengetahuan nilai ganjil
-        'pn_genap', //pengetahuan nilai genap
-        'ppredikat_ganjil', //pengetahuan predikat ganjil
-        'ppredikat_genap', //pengetahuan predikat genap
-        'kn_ganjil', //keterampilan nilai ganjil
-        'kn_genap', //keterampilan nilai genap
-        'kpredikat_ganjil', //keterampilan predikat ganjil
-        'kpredikat_genap' //keterampilan predikat genap
+        'nilaipengetahuan', 
+        'nilaiketerampilan', 
+        'predikatpengetahuan', 
+        'predikatketerampilan', 
     ];
 
     public function rapot()
