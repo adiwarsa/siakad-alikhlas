@@ -68,7 +68,7 @@
                                             <td>{{ $str->kelas->madrasah}}</td>
                                             <td>{{ $str->tahun_masuk}}</td>
                                             <td>
-                                                <a href="{{ route('createrapot.santri', ['kelasId' => $kelasId, 'santriId' => $str->id]) }}" class="btn btn-icon btn-warning"><i class="far fa-edit"></i></a>
+                                                <a href="{{ route('createrapot.santri', ['kelasId' => $kelasId, 'santriId' => $str->id]) }}" class="btn btn-icon btn-warning"><i class="">Buat</i></a>
                                                 {{-- <button class="btn btn-icon btn-danger delete-santri" data-toggle="modal" data-target="#data-modal-delete" data-id="{{ $str->id }}"><i class="fas fa-times"></i></button> --}}
                                             </td>
                                         </tr>
