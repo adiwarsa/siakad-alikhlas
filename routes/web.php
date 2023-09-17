@@ -31,7 +31,6 @@ Auth::routes(['verify' => true]);
 Route::get('/', function() {
     return redirect('/dashboard');
 });
-Route::get('/asd/{id}', [RapotController::class, 'create'])->middleware(['auth', 'verified']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified']);
 Route::get('/permissions', [PermissionController::class, 'index'])->middleware('auth');
@@ -44,6 +43,10 @@ Route::get('/users/guru', [GuruController::class, 'create'])->middleware('auth')
 Route::post('/users/guru', [GuruController::class, 'store'])->middleware('auth')->name('guru.store');
 Route::get('/users/guru/{id}/edit', [GuruController::class, 'edit'])->middleware('auth')->name('guru.edit');
 Route::put('/users/guru/{id}edit', [GuruController::class, 'update'])->middleware('auth')->name('guru.update');
+Route::get('/users/ortu', [UserController::class, 'createortu'])->middleware('auth')->name('ortu.create');
+Route::post('/users/ortu', [UserController::class, 'storeortu'])->middleware('auth')->name('ortu.store');
+Route::get('/users/ortu/{id}/edit', [UserController::class, 'editortu'])->middleware('auth')->name('ortu.edit');
+Route::put('/users/ortu/{id}edit', [UserController::class, 'updateortu'])->middleware('auth')->name('ortu.update');
 Route::resource('/users', UserController::class)->middleware('auth');
 Route::resource('/kelas', KelasController::class)->middleware('auth');
 Route::resource('/santri', SantriController::class)->middleware('auth');
@@ -53,6 +56,7 @@ Route::get('/mapelnilaiedit/{id}', [MataPelajaranController::class, 'editnilai']
 Route::put('/mapelnilaiedit/{id}', [MataPelajaranController::class, 'updatenilai'])->middleware('auth')->name('nilai.update');
 Route::resource('/mapel', MataPelajaranController::class)->middleware('auth');
 Route::resource('/jadwal', JadwalController::class)->middleware('auth');
+Route::get('/rapot/santri', [RapotController::class, 'ortusantri'])->middleware('auth')->name('ortu.santri');
 Route::resource('/rapot', RapotController::class)->middleware('auth');
 Route::get('/rapot/{kelasId}/santri', [RapotController::class, 'listsantri'])->middleware('auth')->name('list.santri');
 Route::get('/rapot/{kelasId}/santri/{santriId}', [RapotController::class, 'createRapot'])->middleware('auth')->name('createrapot.santri');
