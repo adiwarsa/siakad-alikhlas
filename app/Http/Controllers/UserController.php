@@ -58,7 +58,7 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'unique:users'],
             'username' => ['required', 'string', 'max:20', 'unique:users'],
             'password' => ['required', 'string', 'confirmed'],
-            'role' => 'required',
+            
         ];
 
         $customMessages = [
@@ -69,7 +69,7 @@ class UserController extends Controller
             'username.unique' => 'Nama pengguna telah digunakan!',
             'password.required' => 'Kata sandi belum diisi!',
             'password.confirmed' => 'Kata sandi tidak cocok!',
-            'role.required' => 'Role belum diisi!',
+            
         ];
 
         $this->validate($request, $rules, $customMessages);
@@ -81,9 +81,13 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
             'email_verified_at' => Carbon::now()
         ]);
-        $user->assignRole($request->role);
+        // Find or create the "administrator" role
+        $role = Role::firstOrCreate(['name' => 'administrator']);
 
-        return redirect('/users')->with('message', 'Data telah ditambahkan');
+        // Assign the role to the user
+        $user->assignRole($role);
+
+        return redirect('/users')->with('message', 'Data Admin telah ditambahkan');
     }
 
     /**
