@@ -73,9 +73,12 @@
                                                 @can('users-update')
                                                 @if ($user->hasRole('guru'))
                                                     <a href="{{ route('guru.edit', ['id' => $user->id]) }}" class="btn btn-icon btn-warning"><i class="far fa-edit"></i></a>
+                                                @elseif ($user->hasRole('orangtua'))
+                                                    <a href="{{ route('ortu.edit', ['id' => $user->id]) }}" class="btn btn-icon btn-warning"><i class="far fa-edit"></i></a>
                                                 @else
                                                     <a href="{{ url('/users/' .$user->id. '/edit') }}" class="btn btn-icon btn-warning"><i class="far fa-edit"></i></a>
                                                 @endif
+
                                                 @endcan
                                                 @can('users-delete')
                                                 <button class="btn btn-icon btn-danger delete-user" data-toggle="modal" data-target="#data-modal-delete" data-id="{{ $user->id }}"><i class="fas fa-times"></i></button>
@@ -109,7 +112,7 @@
                             <a href="{{ route('guru.create') }}" class="btn btn-success">Guru</a>
                         </div>
                         <div class="col-md-4 text-center">
-                            <a href="" class="btn btn-success">Orang Tua</a>
+                            <a href="{{ route('ortu.create') }}" class="btn btn-success">Orang Tua</a>
                         </div>
                     </div>
                 </div>
