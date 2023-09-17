@@ -62,7 +62,7 @@
                                             <td class="text-center">{{ $no++ }}</td>
                                             <td>{{ $str->nis }}</td>
                                             <td>
-                                                <a href="" class="btn btn-link" data-toggle="modal" data-target="#exampleModal{{ $str->id }}">
+                                                <a href="" data-toggle="modal" data-target="#exampleModal{{ $str->id }}">
                                                     {{ $str->nama }}
                                                 </a>
                                             </td>
@@ -86,10 +86,10 @@
                                                     <div class="container-fluid mt-4">
                                                         <div class="row">
                                                             <div class="col-md-6 text-center">
-                                                                <a href="{{ route('showrapot.santri', ['santriId' => $str->id]) }}" class="btn btn-success">Semester 1</a>
+                                                                <a href="{{ route('showrapot.santri', ['santriId' => $str->id, 'semester' => '1']) }}" class="btn btn-success">Semester 1</a>
                                                             </div>
                                                             <div class="col-md-6 text-center">
-                                                                <a href="" class="btn btn-success">Semester 2</a>
+                                                                <a href="{{ route('showrapot.santri', ['santriId' => $str->id, 'semester' => '2']) }}" class="btn btn-success">Semester 2</a>
                                                             </div>
                                                         </div>
                                                     </div>

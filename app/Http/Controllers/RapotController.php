@@ -65,7 +65,7 @@ class RapotController extends Controller
 
         if ($existingRapot) {
             // A record already exists, display an error message
-            return redirect()->back()->with('error', 'Rapot semester 1 sudah ada !.');
+            return redirect()->back()->with('error', 'Rapot semester ini sudah ada !.');
         }
         $rules = [
             'santri_id' => 'required',
@@ -132,10 +132,10 @@ class RapotController extends Controller
         return redirect('/rapot/' . $request->kelas_id . '/santri')->with('message', 'Data Nilai Rapot telah ditambahkan');
     }
 
-    public function rapotSantri($santriId)
+    public function rapotSantri($santriId, $semester)
     {
         $rapot = Rapot::where('santri_id', $santriId)
-        ->where('semester', 1)
+        ->where('semester', $semester)
         ->first(); // Assuming you only want one record; use get() if you expect multiple records
 
         if (!$rapot) {

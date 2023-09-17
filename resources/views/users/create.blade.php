@@ -109,7 +109,7 @@
                                         <input name="password_confirmation" type="password" class="form-control pwstrength" data-indicator="pwindicator">
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label>Role</label>
                                     <select class="form-control selectric @error('role') is-invalid @enderror" name="role">
                                         <option value=""> -- Pilih Role --</option>
@@ -122,7 +122,7 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                </div>
+                                </div> --}}
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-icon icon-left btn-primary"><i class="fas fa-save"></i> Simpan</button>
                                 </div>
