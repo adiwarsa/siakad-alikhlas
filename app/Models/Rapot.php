@@ -33,7 +33,7 @@ class Rapot extends Model
 
     public function nilaiRapots()
     {
-        return $this->hasMany(NilaiRapot::class, 'raport_id');
+        return $this->hasMany(NilaiRapot::class, 'rapot_id');
     }
 
     // Define a cascade delete relationship
