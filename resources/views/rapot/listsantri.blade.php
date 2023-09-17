@@ -61,7 +61,11 @@
                                         <tr>
                                             <td class="text-center">{{ $no++ }}</td>
                                             <td>{{ $str->nis }}</td>
-                                            <td>{{ $str->nama }}</td>
+                                            <td>
+                                                <a href="" class="btn btn-link" data-toggle="modal" data-target="#exampleModal{{ $str->id }}">
+                                                    {{ $str->nama }}
+                                                </a>
+                                            </td>
                                             <td>{{ $str->jenis_kelamin }}</td>
                                             <td>{{ $str->tempat_lahir }}, {{ $str->formatted_tanggal_lahir }}</td>
                                             <td>{{ $str->kelas->kelas}}</td>
@@ -69,9 +73,33 @@
                                             <td>{{ $str->tahun_masuk}}</td>
                                             <td>
                                                 <a href="{{ route('createrapot.santri', ['kelasId' => $kelasId, 'santriId' => $str->id]) }}" class="btn btn-icon btn-warning"><i class="">Buat</i></a>
-                                                {{-- <button class="btn btn-icon btn-danger delete-santri" data-toggle="modal" data-target="#data-modal-delete" data-id="{{ $str->id }}"><i class="fas fa-times"></i></button> --}}
                                             </td>
                                         </tr>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal{{ $str->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{ $str->id }}" aria-hidden="true" data-backdrop="false">
+                                            <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Lihat Rapot : {{ $str->nama }}</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="container-fluid mt-4">
+                                                        <div class="row">
+                                                            <div class="col-md-6 text-center">
+                                                                <a href="{{ route('showrapot.santri', ['santriId' => $str->id]) }}" class="btn btn-success">Semester 1</a>
+                                                            </div>
+                                                            <div class="col-md-6 text-center">
+                                                                <a href="" class="btn btn-success">Semester 2</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -117,12 +145,4 @@
 
     <!-- Page Specific JS File -->
     <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
-    <script>
-        $('#datatable').on('click', '.delete-santri', function(){
-            let id = $(this).data('id');
-
-            $('.modal-title').html('Hapus Data Santri');
-            $('.modal-content form').attr('action', '{{ url('/santri/') }}/' +id);
-        });
-    </script>
 @endsection
