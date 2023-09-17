@@ -11,7 +11,7 @@
     <div class="section-header">
         <h1>{{ $pageTitle }} {{ $rapot->kelas->kelas }}</h1>
         <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item"><a href="{{ route('rapot.index')}}">Rapot Santri </a></div>
+            <div class="breadcrumb-item"><a href="{{ url()->previous() }}">Rapot Santri </a></div>
             <div class="breadcrumb-item active">Detail Rapot Santri</div>
         </div>
     </div>
