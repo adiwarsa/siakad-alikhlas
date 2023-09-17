@@ -132,9 +132,20 @@ class RapotController extends Controller
         return redirect('/rapot/' . $request->kelas_id . '/santri')->with('message', 'Data Nilai Rapot telah ditambahkan');
     }
 
-    public function rapotSantri()
+    public function rapotSantri($santriId)
     {
-        $data['pageTitle'] = "Test";
+        $rapot = Rapot::where('santri_id', $santriId)
+        ->where('semester', 1)
+        ->first(); // Assuming you only want one record; use get() if you expect multiple records
+
+        if (!$rapot) {
+            // Handle the case where no rapot is found
+            abort(404); // You can return a 404 error or handle it differently as needed
+        }
+
+        $data['pageTitle'] = "Rapot Santri";
+        $data['rapot'] = $rapot; // Pass the rapot data to the view
+
         return view('rapot.rapotsantri', $data);
     }
 
