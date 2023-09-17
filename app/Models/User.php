@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'username', 'password', 'email_verified_at'
+        'name', 'id_detail', 'email', 'username', 'password', 'email_verified_at'
     ];
 
     /**
@@ -38,4 +38,21 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function userDetail()
+    {
+        return $this->hasOne(UserDetail::class, 'user_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            // Delete the associated user detail
+            if ($user->userDetail) {
+                $user->userDetail->delete();
+            }
+        });
+    }
 }
