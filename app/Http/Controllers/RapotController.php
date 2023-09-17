@@ -9,6 +9,7 @@ use App\Models\Rapot;
 use App\Models\Santri;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RapotController extends Controller
 {
@@ -19,9 +20,43 @@ class RapotController extends Controller
      */
     public function index()
     {
-        $data['pageTitle'] = 'Rapot Santri';
-        $data['kelas'] = Kelas::all();
+       
+        $data = [];
+        if (auth()->user()->hasRole('administrator')) {
+            // Fetch all Santri data
+            $data['pageTitle'] = 'Rapot Santri';
+            $data['kelas'] = Kelas::all();
+        } elseif (auth()->user()->hasRole('guru')) {
+            // Fetch Santri data where the kelas has wali_id matching the user's ID
+            $data['pageTitle'] = 'Rapot Santri';
+            $data['kelas'] = Kelas::where('wali_id', auth()->user()->id)->get();
+        }
         return view('rapot.index', $data);
+    }
+    public function ortusantri()
+    {
+
+        $data['pageTitle'] = 'Santri';
+        $user = Auth::user();
+        
+        // Retrieve the Santri model based on the user's santri_id
+        $data['santri'] = Santri::where('id', $user->userDetail->santri_id)->first();
+        
+        // Check if the Santri model was found
+        if (!$data['santri']) {
+            // Handle the case where the Santri model was not found
+            // For example, you can return a 404 response or handle it differently
+            abort(404);
+        }
+        
+        // Retrieve the related class (kelas)
+        $selectedClass = $data['santri']->kelas;
+        
+        // Now, you can access the 'kelas' property
+        $data['namakelas'] = $selectedClass->kelas;
+        $data['kelasId'] = $selectedClass->id;
+        
+        return view('rapot.ortu.listsantri', $data);
     }
 
     public function listSantri($kelasId)

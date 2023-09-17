@@ -19,8 +19,19 @@ class JadwalController extends Controller
      */
     public function index()
     {
-        $data['pageTitle'] = 'Jadwal Pelajaran';
-        $data['jadwal'] = Jadwal::all();
+       
+        $data = [];
+        if (auth()->user()->hasRole('administrator')) {
+            // Fetch all Santri data
+            $data['pageTitle'] = 'Jadwal Pelajaran';
+            $data['jadwal'] = Jadwal::all();
+        } elseif (auth()->user()->hasRole('guru')) {
+            // Fetch Santri data where the kelas has wali_id matching the user's ID
+            $data['pageTitle'] = 'Jadwal Pelajaran';
+            $data['jadwal'] = Jadwal::whereHas('kelas', function ($query) {
+                $query->where('guru_id', auth()->user()->id);
+            })->get();
+        }
         return view('jadwal.index', $data);
     }
 

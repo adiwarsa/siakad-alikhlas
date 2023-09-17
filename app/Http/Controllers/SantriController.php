@@ -15,8 +15,21 @@ class SantriController extends Controller
      */
     public function index()
     {
-        $data['pageTitle'] = 'Santri';
-        $data['santri'] = Santri::all();
+        
+        $data = [];
+
+        if (auth()->user()->hasRole('administrator')) {
+            // Fetch all Santri data
+            $data['pageTitle'] = 'Santri';
+            $data['santri'] = Santri::all();
+        } elseif (auth()->user()->hasRole('guru')) {
+            // Fetch Santri data where the kelas has wali_id matching the user's ID
+            $data['pageTitle'] = 'Santri';
+            $data['santri'] = Santri::whereHas('kelas', function ($query) {
+                $query->where('wali_id', auth()->user()->id);
+            })->get();
+        }
+
         return view('santri.index', $data);
     }
 
