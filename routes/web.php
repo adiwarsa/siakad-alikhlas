@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AbsenSantriController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GuruController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\MataPelajaranController;
@@ -39,6 +40,10 @@ Route::get('/permissions/{id}', [PermissionController::class, 'edit'])->middlewa
 Route::patch('/permissions/{permission}', [PermissionController::class, 'update'])->middleware('auth');
 Route::delete('/permissions/{permission}', [PermissionController::class, 'destroy'])->middleware('auth');
 Route::resource('/roles', RoleController::class)->middleware('auth');
+Route::get('/users/guru', [GuruController::class, 'create'])->middleware('auth')->name('guru.create');
+Route::post('/users/guru', [GuruController::class, 'store'])->middleware('auth')->name('guru.store');
+Route::get('/users/guru/{id}/edit', [GuruController::class, 'edit'])->middleware('auth')->name('guru.edit');
+Route::put('/users/guru/{id}edit', [GuruController::class, 'update'])->middleware('auth')->name('guru.update');
 Route::resource('/users', UserController::class)->middleware('auth');
 Route::resource('/kelas', KelasController::class)->middleware('auth');
 Route::resource('/santri', SantriController::class)->middleware('auth');
@@ -52,7 +57,7 @@ Route::resource('/rapot', RapotController::class)->middleware('auth');
 Route::get('/rapot/{kelasId}/santri', [RapotController::class, 'listsantri'])->middleware('auth')->name('list.santri');
 Route::get('/rapot/{kelasId}/santri/{santriId}', [RapotController::class, 'createRapot'])->middleware('auth')->name('createrapot.santri');
 Route::post('/rapot/{kelasId}/santri/{santriId}', [RapotController::class, 'storeRapot'])->middleware('auth')->name('storerapot.santri');
-Route::get('/rapot/showrapot/{santriId}', [RapotController::class, 'rapotSantri'])->middleware('auth')->name('showrapot.santri');
+Route::get('/rapot/showrapot/{santriId}/{semester}', [RapotController::class, 'rapotSantri'])->middleware('auth')->name('showrapot.santri');
 Route::get('/jadwal/{id}/absen', [AbsenSantriController::class, 'create'])->middleware('auth')->name('absen.create');
 Route::get('/jadwal/{id}/absen/edit', [AbsenSantriController::class, 'edit'])->middleware('auth')->name('absen.edit');
 Route::post('/jadwal/{id}/absen', [AbsenSantriController::class, 'store'])->middleware('auth')->name('absensisantri');

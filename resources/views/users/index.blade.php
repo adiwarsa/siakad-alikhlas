@@ -32,7 +32,7 @@
                             <h4>Data Users</h4>
                             @can('users-create')
                                 <div class="card-header-action">
-                                    <a href="{{ url('users/create') }}" class="btn btn-icon btn-primary"><i class="fas fa-plus"></i></a>
+                                    <a href="#" class="btn btn-icon btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-plus"></i></a>
                                 </div>
                             @endcan
                         </div>
@@ -71,7 +71,11 @@
                                             </td>
                                             <td>
                                                 @can('users-update')
+                                                @if ($user->hasRole('guru'))
+                                                    <a href="{{ route('guru.edit', ['id' => $user->id]) }}" class="btn btn-icon btn-warning"><i class="far fa-edit"></i></a>
+                                                @else
                                                     <a href="{{ url('/users/' .$user->id. '/edit') }}" class="btn btn-icon btn-warning"><i class="far fa-edit"></i></a>
+                                                @endif
                                                 @endcan
                                                 @can('users-delete')
                                                 <button class="btn btn-icon btn-danger delete-user" data-toggle="modal" data-target="#data-modal-delete" data-id="{{ $user->id }}"><i class="fas fa-times"></i></button>
@@ -88,6 +92,34 @@
             </div>
         </div>
     </section>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Buat User</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid mt-4">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <a href="{{ route('users.create') }}" class="btn btn-success">Admin</a>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <a href="{{ route('guru.create') }}" class="btn btn-success">Guru</a>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <a href="" class="btn btn-success">Orang Tua</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="data-modal-delete">
         <div class="modal-dialog" role="document">
