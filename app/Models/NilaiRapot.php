@@ -18,6 +18,30 @@ class NilaiRapot extends Model
         'predikatketerampilan', 
     ];
 
+    public function getDeskripsiAttribute()
+    {
+        $predikat = $this->predikatpengetahuan;
+        
+        // Get the associated mapel
+        $mapel = $this->mapel;
+
+        // If the mapel exists and has a valid relationship to Nilai
+        if ($mapel && $mapel->nilai) {
+            $deskripsiMapping = [
+                'A' => $mapel->nilai->descpredikata,
+                'B' => $mapel->nilai->descpredikatb,
+                'C' => $mapel->nilai->descpredikatc,
+                'D' => $mapel->nilai->descpredikatd,
+            ];
+
+            // Check if the predikat exists in the mapping array, otherwise use a default value.
+            return $deskripsiMapping[$predikat] ?? 'No Description Available';
+        }
+
+        return 'Belum Ada Deskripsi';
+    }
+
+
     public function rapot()
     {
         return $this->belongsTo(Raport::class, 'rapot_id');
@@ -30,7 +54,7 @@ class NilaiRapot extends Model
 
     public function mapel()
     {
-        return $this->belongsTo(Mapel::class, 'mapel_id');
+        return $this->belongsTo(MataPelajaran::class, 'mapel_id');
     }
 }
 
