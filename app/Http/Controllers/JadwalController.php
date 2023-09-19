@@ -22,15 +22,23 @@ class JadwalController extends Controller
        
         $data = [];
         if (auth()->user()->hasRole('administrator')) {
-            // Fetch all Santri data
+            // Fetch all Jadwal data
             $data['pageTitle'] = 'Jadwal Pelajaran';
             $data['jadwal'] = Jadwal::all();
         } elseif (auth()->user()->hasRole('guru')) {
-            // Fetch Santri data where the kelas has wali_id matching the user's ID
+            // Fetch Jadwal data where the kelas has guru_id matching the user's ID
             $data['pageTitle'] = 'Jadwal Pelajaran';
             $data['jadwal'] = Jadwal::whereHas('kelas', function ($query) {
                 $query->where('guru_id', auth()->user()->id);
             })->get();
+        } elseif (auth()->user()->hasRole('orangtua')) {
+            // Fetch Jadwal data where kelas_id matches the user's userDetail->santri_id
+            $data['pageTitle'] = 'Jadwal Pelajaran';
+            $user = auth()->user();
+            $data['jadwal'] = Jadwal::whereHas('kelas', function ($query) use ($user) {
+                $query->where('id', $user->userDetail->anak->id_kelas);
+            })->get();
+            
         }
         return view('jadwal.index', $data);
     }
