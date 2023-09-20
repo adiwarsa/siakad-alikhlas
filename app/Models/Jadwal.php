@@ -5,10 +5,13 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Jadwal extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $table = 'jadwal';
     protected $fillable = [
@@ -26,6 +29,11 @@ class Jadwal extends Model
       'formatted_created_at',
       'formatted_updated_at',
   ];
+  public function getActivitylogOptions(): LogOptions
+  {
+      return LogOptions::defaults()
+      ->logFillable();
+  }
   
     //Mengubah format tanggal tanggal menjadi Hari, tanggal bulan tahun, 
     public function getFormattedTanggalAttribute(): string {

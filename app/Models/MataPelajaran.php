@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class MataPelajaran extends Model
 {
     use HasFactory;
+    use LogsActivity;
+
     protected $table = 'mapel';
     protected $fillable = [
         'id_user',
@@ -17,6 +21,12 @@ class MataPelajaran extends Model
         'jenjang',
         'kkm'
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logFillable();
+    }
 
     public function nilai()
     {

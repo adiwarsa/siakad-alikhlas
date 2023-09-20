@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Nilai extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $table = 'nilai';
     protected $fillable = [
@@ -18,6 +21,12 @@ class Nilai extends Model
         'descpredikatc',
         'descpredikatd'
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logFillable();
+    }
 
     public function mapel()
     {

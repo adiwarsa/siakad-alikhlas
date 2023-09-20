@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class UserDetail extends Model
 {
+    use LogsActivity;
+
     protected $table = 'userdetail';
     protected $fillable = [
         'user_id', // Include user_id in the fillable array
@@ -18,6 +22,13 @@ class UserDetail extends Model
         'tempat_lahir',
         'tanggal_lahir',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logFillable();
+        // Chain fluent methods for configuration options
+    }
 
     // Define the reverse relationship to User
     public function user()

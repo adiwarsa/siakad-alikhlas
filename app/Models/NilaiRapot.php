@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class NilaiRapot extends Model
 {
+    use LogsActivity;
+
     protected $table = 'nilairapot';
     protected $fillable = [
         'rapot_id',
@@ -17,6 +21,12 @@ class NilaiRapot extends Model
         'predikatpengetahuan', 
         'predikatketerampilan', 
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logFillable();
+    }
 
     public function getDeskripsiAttribute()
     {

@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class AbsensiSantri extends Model
 {
     use HasFactory;
+    use LogsActivity;
     protected $table = 'absensi';
     protected $fillable = [
         'santri_id',
@@ -19,6 +22,12 @@ class AbsensiSantri extends Model
         'formatted_created_at',
     ];
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logFillable();
+    }
+    
     //Relasi disposisi ke table jadwal
     public function jadwal()
     {

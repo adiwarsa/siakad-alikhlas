@@ -4,16 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Kelas extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $table = 'kelas';
     
     protected $fillable = [
         'wali_id', 'kelas', 'madrasah',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logFillable();
+    }
 
     public function guruwali()
     {
