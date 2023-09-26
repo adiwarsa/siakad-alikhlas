@@ -5,6 +5,14 @@
     <link rel="stylesheet" href="{{ asset('assets/modules/datatables/datatables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
+    <style>
+        .fontBold{
+            font-weight: bold;
+        }
+        .centered{
+            text-align: center;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -47,15 +55,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php
-                                            $no = 1
-                                        @endphp
-                                        
                                         @foreach ($mapel as $mpl)
                                         <tr>
-                                            <td class="text-center">{{ $no++ }}</td>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $mpl->nama }}</td>
-                                            <td>{{ $mpl->user->name }}</td>
+                                            <td>
+                                            <a  href="" data-toggle="modal" data-target="#exampleModal{{ $mpl->id }}" title="Klik untuk Melihat data guru">{{ $mpl->user->name }}</a>
+                                            </td>
+
                                             <td>{{ $mpl->kode }}</td>
                                             <td>{{ $mpl->kelas->kelas }} </td>
                                             <td>{{ $mpl->jenjang }} </td>
@@ -70,6 +77,71 @@
             </div>
         </div>
     </section>
+
+    @foreach ($mapel as $mpl)
+    <div class="modal fade bd-example-modal-lg" id="exampleModal{{ $mpl->id }}" tabindex="-1" role="dialog"aria-labelledby="exampleModalLabel{{ $mpl->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ $mpl->nama }}</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid mt-4">  
+                    <div class="table-responsive">
+                        <table class="table table-bordered customTable">
+                            <tr>
+                                <td colspan="3" class="fontBold centered">Info Guru</td>
+                            </tr>
+                            <tr>
+                                <td class="fontBold centered">Nama</td>
+                                <td class="fontBold centered">Email</td>
+                                <td class="fontBold centered">No Hp</td>
+                            </tr>
+                                <tr>
+                                    <td>{{ $mpl->user->name }}</td>
+                                    <td class="centered">{{ $mpl->user->email }}</td>
+                                    <td>{{ $mpl->user->userDetail->nohp }}</td>
+                                </tr> 
+                            <tr>
+                                <td colspan="3" class="fontBold centered">Lebih Detail</td>
+                            </tr>
+                                <tr>
+                                <td class="fontBold">Nama Lengkap</td>
+                                <td colspan="2">{{ $mpl->user->userDetail->nama_lengkap }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fontBold">No Induk</td>
+                                <td colspan="2">{{ $mpl->user->userDetail->noinduk }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fontBold">Alamat</td>
+                                <td colspan="2"> 
+                                    {{ $mpl->user->userDetail->alamat }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fontBold">Tempat Lahir</td>
+                                <td colspan="2"> 
+                                    {{ $mpl->user->userDetail->tempat_lahir }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fontBold">Tanggal Lahir</td>
+                                <td colspan="2">
+                                {{ $mpl->user->userDetail->tanggal_lahir }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
 
     <div class="modal fade" tabindex="-1" role="dialog" id="data-modal-delete">
         <div class="modal-dialog" role="document">

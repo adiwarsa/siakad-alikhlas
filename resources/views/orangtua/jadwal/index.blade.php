@@ -78,30 +78,6 @@
             </div>
         </div>
     </section>
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="data-modal-delete">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="post" action="#">
-                    @method('delete')
-                    @csrf
-                    <div class="modal-body">
-                        <p>Apakah Anda yakin akan menghapus data ini?</p>
-                    </div>
-                    <div class="modal-footer bg-whitesmoke br">
-                        <button type="submit" class="btn btn-danger btn-shadow">Ya</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('script')
@@ -113,12 +89,4 @@
 
     <!-- Page Specific JS File -->
     <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
-    <script>
-        $('#datatable').on('click', '.delete-jadwal', function(){
-            let id = $(this).data('id');
-
-            $('.modal-title').html('Hapus Data Jadwal Pelajaran');
-            $('.modal-content form').attr('action', '{{ url('/jadwal/') }}/' +id);
-        });
-    </script>
 @endsection
