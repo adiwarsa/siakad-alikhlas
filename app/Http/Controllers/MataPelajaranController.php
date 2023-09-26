@@ -17,8 +17,22 @@ class MataPelajaranController extends Controller
      */
     public function index()
     {
-        $data['pageTitle'] = 'Mata Pelajaran';
-        $data['mapel'] = MataPelajaran::all();
+        $data = [];
+        if (auth()->user()->hasRole('administrator')) {
+            $data['pageTitle'] = 'Mata Pelajaran';
+            $data['mapel'] = MataPelajaran::all();
+        } elseif (auth()->user()->hasRole('guru')) {
+            // Fetch Jadwal data where the kelas has guru_id matching the user's ID
+            $data['pageTitle'] = 'Mata Pelajaran';
+            $user = auth()->user();
+            $data['mapel'] = MataPelajaran::where('id_user', $user->id)->get();
+        } elseif (auth()->user()->hasRole('orangtua')) {
+            // Fetch Jadwal data where kelas_id matches the user's userDetail->santri_id
+            $data['pageTitle'] = 'Jadwal Pelajaran';
+            $user = auth()->user();
+            $data['mapel'] = MataPelajaran::where('id_kelas', $user->userDetail->anak->id_kelas)->get();
+            return view('orangtua.mapel.index', $data);
+        }
         return view('mapel.index', $data);
     }
 

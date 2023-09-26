@@ -38,8 +38,9 @@ class JadwalController extends Controller
             $data['jadwal'] = Jadwal::whereHas('kelas', function ($query) use ($user) {
                 $query->where('id', $user->userDetail->anak->id_kelas);
             })->get();
-            
+            return view('orangtua.jadwal.index', $data);
         }
+        
         return view('jadwal.index', $data);
     }
 
