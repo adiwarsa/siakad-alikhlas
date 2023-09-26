@@ -11,10 +11,12 @@
                         @role('orangtua')
                         <li class="{{ Request::is('rapot*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('ortu.santri') }}"><i class="fas fa-book"></i> <span>Rapot</span></a></li>
                         <li class="{{ Request::is('jadwal*') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/jadwal') }}"><i class="fas fa-book"></i> <span>Jadwal Pelajaran</span></a></li>
+                        <li class="{{ Request::is('mapel*') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/mapel') }}"><i class="fas fa-book"></i> <span>Mata Pelajaran</span></a></li>
                         @endrole
                         @role('guru')
                             <li class="{{ Request::is('santri*') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/santri') }}"><i class="fas fa-user"></i> <span>Santri</span></a></li>
                             <li class="{{ Request::is('rapot*') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/rapot') }}"><i class="fas fa-book"></i> <span>Rapot</span></a></li>
+                            <li class="{{ Request::is('mapel*') ? 'active' : '' }}"><a class="nav-link" href="{{ url('/mapel') }}"><i class="fas fa-book"></i> <span>Mata Pelajaran</span></a></li>
                         @endrole
                         @role('administrator')
                             <li class="menu-header"><i>Master</i></li>
