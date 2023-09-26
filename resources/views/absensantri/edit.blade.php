@@ -35,7 +35,7 @@
                             <h4>Absensi Santri <br>
                                 Guru : {{ $jadwal->guru->name }} <br>
                                 Kelas : {{ $jadwal->mapel->nama }} || {{ $jadwal->formatted_tanggal }}</h4>
-                        </div>
+                            </div>
                         <div class="card-body">
                                 <div class="container">
                                     @forelse ($absensi as $absen)
@@ -58,8 +58,43 @@
                                         </div>
                                     @empty
                                     <div class="row">
-                                        <div class="col-md-6 content-center">
-                                            <p>Hadir Semua</p>
+                                        <div class="col content-center">
+                                            <div class="text-center">
+                                                <p>Hadir Semua</p>
+                                            </div>
+                                            <div>
+                                                <p>Ubah Status Jadwal : 
+                                                    <a href="" class="badge bg-danger text-dark" data-toggle="modal" data-target="#exampleModal{{ $jadwal->id }}" title="Klik untuk merubah status jadwal">Belum Diabsen</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal fade" id="exampleModal{{ $jadwal->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{ $jadwal->id }}" aria-hidden="true" data-backdrop="false">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Ubah Status Jadwal ke Belum Diabsen ?</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="container-fluid mt-4">
+                                                        <div class="row">
+                                                            <!-- Center-align the button -->
+                                                            <div class="col-12 d-flex justify-content-center">
+                                                                <form action="{{  route('jadwal.updatestatus',['id'=>$jadwal->id,'status'=>0])}}" method="POST">
+                                                                    @csrf
+                                                                    @method('put')
+                                                                    <input type="text" name="id" value="{{ $jadwal->id }}" hidden>
+                                                                    <button type="submit" class="btn btn-danger">Belum Diabsen</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     @endforelse

@@ -121,12 +121,16 @@ class AbsenSantriController extends Controller
      */
     public function destroy($id)
     {
+        $jadwal = Jadwal::findOrFail($id);
+
         // Retrieve the record by jadwal_id
         $absensi = AbsensiSantri::where('jadwal_id', $id)->first();
 
         // Delete the record
         $absensi->delete();
 
+        $jadwal->status = 0;
+        $jadwal->save();
         // Redirect to the edit route with the appropriate jadwal ID
         return Redirect::route('absen.edit', ['id' => $id])->with('message', 'Absen santri telah dihapus');
     }

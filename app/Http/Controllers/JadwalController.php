@@ -204,4 +204,15 @@ class JadwalController extends Controller
         $jadwal->delete();
         return redirect('/jadwal')->with('message', 'Data telah dihapus');
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $jadwal = Jadwal::findOrFail($id);
+        $currenttime = Carbon::Now();
+        $jadwal->update([
+            'status' => $request->status,
+            'updated_at' => $currenttime,
+        ]);
+        return redirect('/jadwal')->with('message', 'Status Data Jadwal Berhasil Diubah');
+    }
 }

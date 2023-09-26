@@ -62,7 +62,7 @@
                                             <td class="text-center">{{ $no++ }}</td>
                                             <td>{{ $jdwl->hari->nama_hari }}</td>
                                             @if ($jdwl->status == 0)
-                                            <td><a href="{{ route('absen.create', ['id' => $jdwl->id]) }}">{{ $jdwl->mapel->nama }}</a></td>
+                                            <td><a href="{{ route('absen.create', ['id' => $jdwl->id]) }}" title="Klik untuk menambahkan santri yang absen">{{ $jdwl->mapel->nama }}</a></td>
                                             @else
                                             <td>{{ $jdwl->mapel->nama }}</td>
                                             @endif
@@ -71,9 +71,10 @@
                                             <td>{{ $jdwl->formatted_tanggal }} </td>
                                             <td>{{ $jdwl->jam_mulai }} - {{ $jdwl->jam_selesai }} </td>
                                             @if ($jdwl->status == 1)
-                                            <td> <a href="{{ route('absen.edit', ['id' => $jdwl->id]) }}" style="text-decoration: none;" class="badge bg-success text-dark">Sudah Absen</a> </td> 
+                                            <td> <a href="{{ route('absen.edit', ['id' => $jdwl->id]) }}" style="text-decoration: none;" class="badge bg-success text-dark" title="Klik untuk melihat santri yang absen">Sudah Absen</a> </td> 
                                             @else
-                                            <td> <span class="badge bg-warning text-dark" >Belum Absen</span> </td> 
+                                            <td>
+                                                <a href="" class="badge bg-warning text-dark" data-toggle="modal" data-target="#exampleModal{{ $jdwl->id }}" title="Klik untuk merubah status jadwal">Belum Absen</a> </td> 
                                             @endif
                                             
                                             <td>
@@ -81,6 +82,33 @@
                                                 <button class="btn btn-icon btn-danger delete-jadwal" data-toggle="modal" data-target="#data-modal-delete" data-id="{{ $jdwl->id }}"><i class="fas fa-times"></i></button>
                                             </td>
                                         </tr>
+                                        <div class="modal fade" id="exampleModal{{ $jdwl->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{ $jdwl->id }}" aria-hidden="true" data-backdrop="false">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">{{ $jdwl->mapel->nama }} | {{ $jdwl->kelas->kelas }}</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="container-fluid mt-4">
+                                                            <div class="row">
+                                                                <!-- Center-align the button -->
+                                                                <div class="col-12 d-flex justify-content-center">
+                                                                    <form action="{{  route('jadwal.updatestatus',['id'=>$jdwl->id,'status'=>1])}}" method="POST">
+                                                                        @csrf
+                                                                        @method('put')
+                                                                        <input type="text" name="id" value="{{ $jdwl->id }}" hidden>
+                                                                        <button type="submit" class="btn btn-success">Telah Diabsen</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         @endforeach
                                     </tbody>
                                 </table>
