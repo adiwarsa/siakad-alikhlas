@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\LogActivityController;
 use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\MyAccountController;
 use App\Http\Controllers\PermissionController;
@@ -81,6 +82,9 @@ Route::get('/rapot/{kelasId}/santri', [RapotController::class, 'listsantri'])->m
 Route::get('/rapot/{kelasId}/santri/{santriId}', [RapotController::class, 'createRapot'])->middleware('auth')->name('createrapot.santri');
 Route::post('/rapot/{kelasId}/santri/{santriId}', [RapotController::class, 'storeRapot'])->middleware('auth')->name('storerapot.santri');
 Route::get('/rapot/showrapot/{santriId}/{semester}', [RapotController::class, 'rapotSantri'])->middleware('auth')->name('showrapot.santri');
+
+//Log
+Route::get('/log', LogActivityController::class)->middleware(['auth', 'verified']);
 
 Route::get('/my-account', [MyAccountController::class, 'show'])->middleware('auth');
 Route::post('/my-account', [MyAccountController::class, 'updateAccount'])->middleware('auth');

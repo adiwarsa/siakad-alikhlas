@@ -30,9 +30,11 @@
                     <div class="card">
                         <div class="card-header">
                             <h4>Data Jadwal Pelajaran</h4>
+                            @if (auth()->user()->role == 'Administrator')
                                 <div class="card-header-action">
                                     <a href="{{ url('jadwal/create') }}" class="btn btn-icon btn-primary"><i class="fas fa-plus"></i></a>
-                                </div>
+                                </div>        
+                            @endif
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
