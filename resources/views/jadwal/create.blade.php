@@ -76,7 +76,7 @@
                                     <label>Mata Pelajaran</label>
                                     <select class="form-control selectric @error('mapel_id') is-invalid @enderror" name="mapel_id">
                                         @foreach ($mapel as $mpl)
-                                        <option value="{{ $mpl->id }}" {{ old('mapel_id', $mpl->id) == $mpl->id ? 'selected' : '' }}>{{ $mpl->nama }}</option>
+                                        <option value="{{ $mpl->id }}" {{ old('mapel_id', $mpl->id) == $mpl->id ? 'selected' : '' }}>{{ $mpl->nama }} | {{ $mpl->user->userDetail->nama_lengkap }}</option>
                                         @endforeach
                                     </select>
                                     @error('mapel_id')
