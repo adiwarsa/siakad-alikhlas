@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AbsensiSantri;
 use App\Models\Kelas;
 use App\Models\MataPelajaran;
 use App\Models\NilaiRapot;
@@ -173,6 +174,24 @@ class RapotController extends Controller
         ->where('semester', $semester)
         ->first(); // Assuming you only want one record; use get() if you expect multiple records
 
+        // Count 'Sakit' records for the specific Santri and semester
+        $sakitCount = AbsensiSantri::where('santri_id', $santriId)
+        ->where('keterangan', 'Sakit')
+        ->where('semester', $semester)
+        ->count();
+
+        // Count 'Alpha' records for the specific Santri and semester
+        $alphaCount = AbsensiSantri::where('santri_id', $santriId)
+        ->where('keterangan', 'Alpha')
+        ->where('semester', $semester)
+        ->count();
+
+        // Count 'Izin' records for the specific Santri and semester
+        $izinCount = AbsensiSantri::where('santri_id', $santriId)
+        ->where('keterangan', 'Izin')
+        ->where('semester', $semester)
+        ->count();
+
         if (!$rapot) {
             // Handle the case where no rapot is found
             abort(404); // You can return a 404 error or handle it differently as needed
@@ -180,7 +199,9 @@ class RapotController extends Controller
 
         $data['pageTitle'] = "Rapot Santri";
         $data['rapot'] = $rapot; // Pass the rapot data to the view
-
+        $data['sakit'] = $sakitCount;
+        $data['alpha'] = $alphaCount;
+        $data['izin'] = $izinCount;
         return view('rapot.rapotsantri', $data);
     }
 

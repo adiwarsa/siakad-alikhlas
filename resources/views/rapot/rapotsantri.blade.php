@@ -67,15 +67,17 @@
                 <table class="table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
-                            <th class="ctr" rowspan="2">No.</th>
+                            <th class="ctr" rowspan="3">No.</th>
                             <th rowspan="2">Mata Pelajaran</th>
-                            <th class="ctr" colspan="3">Pengetahuan</th>
-                            <th class="ctr" colspan="3">Keterampilan</th>
+                            <th class="ctr" colspan="4">Pengetahuan</th>
+                            <th class="ctr" colspan="4">Keterampilan</th>
                         </tr>
                         <tr>
+                            <th class="ctr">KKM</th>
                             <th class="ctr">Nilai</th>
                             <th class="ctr">Predikat</th>
                             <th class="ctr">Deskripsi</th>
+                            <th class="ctr">KKM</th>
                             <th class="ctr">Nilai</th>
                             <th class="ctr">Predikat</th>
                             <th class="ctr">Deskripsi</th>
@@ -86,18 +88,33 @@
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $nilairapot->mapel->nama }}</td>
+                            <td class="ctr">{{ $nilairapot->mapel->kkm }}</td>
                             <td class="ctr">{{ $nilairapot->nilaipengetahuan }}</td>
                             <td class="ctr">{{ $nilairapot->predikatpengetahuan }}</td>
-                            <td class="ctr">{{ $nilairapot->getDeskripsiAttribute() }}</td> <!-- Use the getDeskripsiAttribute() method -->
+                            <td class="ctr">{{ $nilairapot->getDeskripsiAttribute() }}</td> 
+                            <td class="ctr">{{ $nilairapot->mapel->kkm }}</td>
                             <td class="ctr">{{ $nilairapot->nilaiketerampilan }}</td>
                             <td class="ctr">{{ $nilairapot->predikatketerampilan }}</td>
-                            <td class="ctr">{{ $nilairapot->getDeskripsiAttribute() }}</td> <!-- Use the getDeskripsiAttribute() method -->
+                            <td class="ctr">{{ $nilairapot->getDeskripsiAttribute() }}</td> 
                         </tr>
                     @empty
                         <td>
                             No Data Rapot
                         </td>
                     @endforelse
+                    <tr>
+                        <th colspan="11"></th>
+                    </tr>
+                        <tr>
+                            <th class="ctr" colspan="3">Izin</th>
+                            <th class="ctr" colspan="4">Sakit</th>
+                            <th class="ctr" colspan="4">Alpha</th>
+                        </tr>
+                        <tr>
+                            <td class="ctr" colspan="3">{{ $izin }} Hari</td>
+                            <td class="ctr" colspan="4">{{ $sakit }} Hari</td>
+                            <td class="ctr" colspan="4">{{ $alpha }} Hari</td>
+                        </tr>
                 </table>
                 
             </div>

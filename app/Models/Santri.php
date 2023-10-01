@@ -59,4 +59,9 @@ class Santri extends Model
     {
         return $this->hasMany(Rapot::class, 'santri_id');
     }
+    
+    public function absensi()
+    {
+        return $this->hasMany(Absensi::class, 'santri_id');
+    }
 }
