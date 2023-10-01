@@ -58,6 +58,7 @@
                                             <div class="form-group">
                                                 <label for="keterangan">Keterangan</label>
                                                 <select class="form-control" id="keterangan" name="keterangan[]">
+                                                    <option value="Alpha">Alpha</option>
                                                     <option value="Sakit">Sakit</option>
                                                     <option value="Izin">Izin</option>
                                                 </select>
