@@ -22,6 +22,7 @@ class Jadwal extends Model
         'jam_mulai', 
         'jam_selesai', 
         'tanggal',
+        'semester',
         'status'
     ];
     protected $appends = [

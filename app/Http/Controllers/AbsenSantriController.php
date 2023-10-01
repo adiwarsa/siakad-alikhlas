@@ -49,12 +49,15 @@ class AbsenSantriController extends Controller
     {
         $santriIds = $request->santri_id;
         $keterangans = $request->keterangan;
+        $jadwal = Jadwal::where('id', $id)->first();
+        $semester = $jadwal->semester;
 
         // Loop through each pair of santri_id and keterangan
         foreach ($santriIds as $index => $santriId) {
             $absensi = AbsensiSantri::create([
                 'santri_id' => $santriId,
                 'jadwal_id' => $id,
+                'semester' => $semester,
                 'keterangan' => $keterangans[$index],
             ]);
         }

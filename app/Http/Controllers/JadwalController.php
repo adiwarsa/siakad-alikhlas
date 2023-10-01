@@ -74,7 +74,8 @@ class JadwalController extends Controller
             'mapel_id' => 'required',
             'jam_mulai' => 'required', 
             'jam_selesai' => 'required',
-            'tanggal' => 'required'
+            'tanggal' => 'required',
+            'semester' => 'required'
         ];
 
         $customMessages = [
@@ -83,7 +84,8 @@ class JadwalController extends Controller
             'mapel_id.required' => 'Field mapel belum diisi!',
             'jam_mulai.required' => 'Field jam mulai belum diisi!',
             'jam_selesai.required' => 'Field jam selesai belum diisi!',
-            'tanggal.required' => 'Field tanggal belum diisi!'
+            'tanggal.required' => 'Field tanggal belum diisi!',
+            'semester.required' => 'Field semester belum diisi!'
         ];
 
         $this->validate($request, $rules, $customMessages);
@@ -107,6 +109,7 @@ class JadwalController extends Controller
                 'jam_selesai' => $request->input('jam_selesai'),
                 'tanggal' => $startDate->format('Y-m-d'),
                 'status' => 0,
+                'semester' => $request->input('semester'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -161,7 +164,8 @@ class JadwalController extends Controller
             'mapel_id' => 'required',
             'jam_mulai' => 'required', 
             'jam_selesai' => 'required',
-            'tanggal' => 'required'
+            'tanggal' => 'required',
+            'semester' => 'required'
         ];
 
 
@@ -171,7 +175,8 @@ class JadwalController extends Controller
             'mapel_id.required' => 'Field mapel belum diisi!',
             'jam_mulai.required' => 'Field jam mulai belum diisi!',
             'jam_selesai.required' => 'Field jam selesai belum diisi!',
-            'tanggal.required' => 'Field tanggal belum diisi!'
+            'tanggal.required' => 'Field tanggal belum diisi!',
+            'semester.required' => 'Field semester belum diisi!'
         ];
 
         $jadwal = Jadwal::findOrFail($id);
@@ -188,7 +193,8 @@ class JadwalController extends Controller
             'guru_id' => $id_guru,
             'jam_mulai' => $request->jam_mulai, 
             'jam_selesai' => $request->jam_selesai,
-            'tanggal' => $request->tanggal
+            'tanggal' => $request->tanggal,
+            'semester' => $request->semester
         ]);
         return redirect('/jadwal')->with('message', 'Data telah ditambahkan');
     }

@@ -51,6 +51,17 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
+                                    <label>Semester</label>
+                                            <select class="form-control selectric @error('semester') is-invalid @enderror" name="semester">
+                                                <option value=""> -- Semester --</option>
+                                                <option value="1" {{ old('semester') === '1' ? 'selected' : '' }}> Semester 1</option>
+                                                <option value="2" {{ old('semester') === '2' ? 'selected' : '' }}>Semester 2</option>
+                                            </select>
+                                            @error('semester')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                     <label>Hari</label>
                                     <select class="form-control selectric @error('hari_id') is-invalid @enderror" name="hari_id">
                                         @foreach ($hari as $hr)
