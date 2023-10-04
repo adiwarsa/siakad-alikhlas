@@ -2,6 +2,9 @@
 
 @section('style')
     <!-- CSS Libraries -->
+    <link rel="stylesheet" href="{{ asset('assets/modules/datatables/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
 @endsection
 
 @section('content')
@@ -31,40 +34,10 @@
                     </div>
                     <div class="card-wrap">
                       <div class="card-header">
-                        <h4>Total Admin</h4>
+                        <h4>Total Guru</h4>
                       </div>
                       <div class="card-body">
-                        10
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                  <div class="card card-statistic-1">
-                    <div class="card-icon bg-danger">
-                      <i class="far fa-newspaper"></i>
-                    </div>
-                    <div class="card-wrap">
-                      <div class="card-header">
-                        <h4>News</h4>
-                      </div>
-                      <div class="card-body">
-                        42
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                  <div class="card card-statistic-1">
-                    <div class="card-icon bg-warning">
-                      <i class="far fa-file"></i>
-                    </div>
-                    <div class="card-wrap">
-                      <div class="card-header">
-                        <h4>Reports</h4>
-                      </div>
-                      <div class="card-body">
-                        1,201
+                        {{ $guru }}
                       </div>
                     </div>
                   </div>
@@ -76,89 +49,152 @@
                     </div>
                     <div class="card-wrap">
                       <div class="card-header">
-                        <h4>Online Users</h4>
+                        <h4>Total Santri</h4>
                       </div>
                       <div class="card-body">
-                        47
+                        {{ $santri }}
                       </div>
                     </div>
                   </div>
-                </div>                  
-              </div>
-        </div>
-    </section>
-    <div class="col-md-8">
+                </div>   
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="card card-statistic-1">
+                    <div class="card-icon bg-danger">
+                      <i class="far fa-newspaper"></i>
+                    </div>
+                    <div class="card-wrap">
+                      <div class="card-header">
+                        <h4>Total Kelas</h4>
+                      </div>
+                      <div class="card-body">
+                        {{ $kelas }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                  <div class="card card-statistic-1">
+                    <div class="card-icon bg-warning">
+                      <i class="far fa-file"></i>
+                    </div>
+                    <div class="card-wrap">
+                      <div class="card-header">
+                        <h4>Total Mata Pelajaran</h4>
+                      </div>
+                      <div class="card-body">
+                        {{ $mapel }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        </section>
+        @if(auth()->user()->hasRole('administrator'))
         <div class="card">
           <div class="card-header">
-            <h4>Invoices</h4>
-            <div class="card-header-action">
-              <a href="#" class="btn btn-danger">View More <i class="fas fa-chevron-right"></i></a>
-            </div>
+            <h4>Logs Login/Logout</h4>
           </div>
-          <div class="card-body p-0">
-            <div class="table-responsive table-invoice">
-              <table class="table table-striped">
-                <tbody><tr>
-                  <th>Invoice ID</th>
-                  <th>Customer</th>
-                  <th>Status</th>
-                  <th>Due Date</th>
-                  <th>Action</th>
-                </tr>
-                <tr>
-                  <td><a href="#">INV-87239</a></td>
-                  <td class="font-weight-600">Kusnadi</td>
-                  <td><div class="badge badge-warning">Unpaid</div></td>
-                  <td>July 19, 2018</td>
-                  <td>
-                    <a href="#" class="btn btn-primary">Detail</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#">INV-48574</a></td>
-                  <td class="font-weight-600">Hasan Basri</td>
-                  <td><div class="badge badge-success">Paid</div></td>
-                  <td>July 21, 2018</td>
-                  <td>
-                    <a href="#" class="btn btn-primary">Detail</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#">INV-76824</a></td>
-                  <td class="font-weight-600">Muhamad Nuruzzaki</td>
-                  <td><div class="badge badge-warning">Unpaid</div></td>
-                  <td>July 22, 2018</td>
-                  <td>
-                    <a href="#" class="btn btn-primary">Detail</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#">INV-84990</a></td>
-                  <td class="font-weight-600">Agung Ardiansyah</td>
-                  <td><div class="badge badge-warning">Unpaid</div></td>
-                  <td>July 22, 2018</td>
-                  <td>
-                    <a href="#" class="btn btn-primary">Detail</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#">INV-87320</a></td>
-                  <td class="font-weight-600">Ardian Rahardiansyah</td>
-                  <td><div class="badge badge-success">Paid</div></td>
-                  <td>July 28, 2018</td>
-                  <td>
-                    <a href="#" class="btn btn-primary">Detail</a>
-                  </td>
-                </tr>
-              </tbody></table>
-            </div>
+        <div class="section-body">
+          <div class="row">
+              <div class="col-12">
+                  <div class="card">
+                      <div class="card-body">
+                          <div class="table-responsive">
+                              <table class="table table-striped" id="datatable">
+                                  <thead>
+                                      <tr>
+                                        <th class="text-center">
+                                          No.
+                                      </th>
+                                      <th>Nama User</th>
+                                      <th>Deskripsi</th>
+                                      <th>Tanggal</th> 
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    @foreach ($logs as $log)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $log->user->name}}</td>
+                                        <td>{{ $log->description}}</td>
+                                        <td>{{ $log->created_at_formatted }}</td>
+                
+                                    </tr>
+                                    @endforeach
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
           </div>
         </div>
-      </div>
-@endsection
+        @endif
+        @if(auth()->user()->hasRole('guru'))
+        <div class="card">
+          <div class="card-header">
+            <h4>Jadwal Terkini</h4>
+          </div>
+        <div class="section-body">
+          <div class="row">
+              <div class="col-12">
+                  <div class="card">
+                      <div class="card-body">
+                          <div class="table-responsive">
+                              <table class="table table-striped" id="datatable">
+                                  <thead>
+                                      <tr>
+                                        <th class="text-center">
+                                          No.
+                                      </th>
+                                      <th>Hari</th>
+                                      <th>Pelajaran</th>
+                                      <th>Kelas</th>
+                                      <th>Tanggal</th>
+                                      <th>Jam</th>
+                                      <th>Status</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    @foreach ($jadwal as $jdwl)
+                                        <tr>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $jdwl->hari->nama_hari }}</td>
+                                            @if ($jdwl->status == 0)
+                                            <td><a href="{{ route('absen.create', ['id' => $jdwl->id]) }}" title="Klik untuk menambahkan santri yang absen">{{ $jdwl->mapel->nama }}</a></td>
+                                            @else
+                                            <td>{{ $jdwl->mapel->nama }}</td>
+                                            @endif
+                                            <td>{{ $jdwl->kelas->kelas }} || {{ $jdwl->kelas->madrasah }}</td>
+                                            <td>{{ $jdwl->formatted_tanggal }} </td>
+                                            <td>{{ $jdwl->jam_mulai }} - {{ $jdwl->jam_selesai }} </td>
+                                            
+                                            <td>
+                                                <a class="badge bg-warning text-dark" data-toggle="modal" data-target="#exampleModal{{ $jdwl->id }}" title="Klik untuk merubah status jadwal">Belum Absen</a>
+                                            </td> 
+                                        @endforeach
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        @endif
+        @if(auth()->user()->hasRole('orangtua'))
+
+        @endif
+
+
+      @endsection
 
 @section('script')
-    <!-- JS Libraies -->
+<!-- JS Libraies -->
+<script src="{{ asset('assets/modules/datatables/datatables.min.js') }}"></script>
+<script src="{{ asset('assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
+<script src="{{ asset('assets/modules/jquery-ui/jquery-ui.min.js') }}"></script>
 
-    <!-- Page Specific JS File -->
+<!-- Page Specific JS File -->
+<script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
 @endsection
