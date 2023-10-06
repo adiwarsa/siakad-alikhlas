@@ -40,13 +40,15 @@ class DashboardController extends Controller
             $data['mapel'] = MataPelajaran::where('id_user', $guru->id)->count();
             $data['jadwal'] = Jadwal::where('guru_id', $guru->id)->where('status', 0)->get();
         } elseif (auth()->user()->hasRole('orangtua')) {
-            $orangtua = Auth::user();
-            $santriId = $orangtua->userDetail->santri_id;
-            $data['guru'] = User::whereHas('roles', function ($query) {
-                $query->where('name', 'guru');
-            })->count();
-            $data['santri'] = Santri::where('id', $santriId)->count();
-            
+            $ortu = Auth::user();
+            $idsantri = $ortu->userDetail->santri_id;
+            $data['santri'] = Santri::where('id', $idsantri)->first();
+            $data['jadwal'] = Jadwal::whereHas('kelas', function ($query) use ($ortu) {
+                $query->where('id', $ortu->userDetail->anak->id_kelas);
+            })
+            ->where('status', 0)
+            ->get();
+            return view('dashboardortu', $data);
         }
         return view('dashboard', $data);
     }
