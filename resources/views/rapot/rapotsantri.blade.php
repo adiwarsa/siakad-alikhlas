@@ -18,9 +18,10 @@
 <div class="col-md-12">
     <!-- general form elements -->
     <div class="card card-primary">
-      <div class="card-header">
-        <h4 class="card-title">Detail Rapot</h4>
-      </div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="card-title">Detail Rapot</h4>
+            <a href="{{ route('exportraport.santri', ['santriId' => $rapot->santri_id, 'semester' => $rapot->semester]) }}" class="card-title" target="_blank">Download</a>
+        </div>
       <!-- /.card-header -->
         <div class="card-body">
           <div class="row">
