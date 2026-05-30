@@ -153,6 +153,14 @@
             border-bottom: 1px solid #edf0f5;
         }
 
+        .child-detail-modal {
+            z-index: 1060;
+        }
+
+        .modal-backdrop {
+            z-index: 1050;
+        }
+
         .modal-heading {
             align-items: center;
             display: flex;
@@ -558,10 +566,19 @@
     <script src="{{ asset('assets/modules/jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
     <script>
+        $('.child-detail-modal').appendTo('body');
+
         $('.child-card.is-clickable').on('keydown', function (event) {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
                 $(this).trigger('click');
+            }
+        });
+
+        $('.child-detail-modal').on('hidden.bs.modal', function () {
+            if (!$('.modal.show').length) {
+                $('.modal-backdrop').remove();
+                $('body').removeClass('modal-open').css('padding-right', '');
             }
         });
     </script>
