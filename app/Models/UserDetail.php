@@ -14,7 +14,6 @@ class UserDetail extends Model
     protected $table = 'userdetail';
     protected $fillable = [
         'user_id', // Include user_id in the fillable array
-        'santri_id',
         'noinduk',
         'nama_lengkap',
         'nohp',
@@ -34,10 +33,5 @@ class UserDetail extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function anak()
-    {
-        return $this->belongsTo(Santri::class, 'santri_id');
     }
 }

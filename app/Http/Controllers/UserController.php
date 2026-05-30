@@ -51,7 +51,7 @@ class UserController extends Controller
     public function createortu()
     {
         $data['pageTitle'] = 'Tambah Data Orang Tua';
-        $data['santri'] = Santri::all();
+        $data['santri'] = Santri::whereNull('orangtua_id')->orderBy('nama')->get();
 
         return view('users.createortu', $data);
     }
@@ -69,7 +69,13 @@ class UserController extends Controller
             'alamat' => 'required',
             'tempat_lahir' => 'required', 
             'tanggal_lahir' => 'required',
-            'santri_id' => 'required',
+            'santri_id' => 'required|array|min:1',
+            'santri_id.*' => [
+                'integer',
+                Rule::exists('santri', 'id')->where(function ($query) {
+                    $query->whereNull('orangtua_id');
+                }),
+            ],
         ];
 
         $customMessages = [
@@ -86,7 +92,10 @@ class UserController extends Controller
             'nohp' => 'Field nomor telp belum diisi!',
             'noinduk'=> 'Field nomor induk belum diisi!',
             'alamat' => 'Field alamat belum diisi!',
-            'santri_id' => 'Santri belum dipilih!',
+            'santri_id.required' => 'Santri belum dipilih!',
+            'santri_id.array' => 'Pilihan santri tidak valid!',
+            'santri_id.min' => 'Santri belum dipilih!',
+            'santri_id.*.exists' => 'Santri yang dipilih sudah memiliki orang tua atau tidak tersedia!',
             
         ];
 
@@ -113,11 +122,11 @@ class UserController extends Controller
             'alamat' => $request->alamat,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
-            'santri_id' => $request->santri_id,
         ]);
 
         $user->id_detail = $userDetail->id;
         $user->save();
+        $this->syncAnakOrangtua($user, $request->input('santri_id', []));
         
 
         return redirect('/users')->with('message', 'Data Orang Tua telah ditambahkan'); 
@@ -125,9 +134,13 @@ class UserController extends Controller
 
     public function editortu($id)
     {
-        $data['pageTitle'] = 'Ubah Data Guru';
-        $data['user'] = User::where('id', $id)->first();
-        $data['santri'] = Santri::all();
+        $data['pageTitle'] = 'Ubah Data Orang Tua';
+        $data['user'] = User::with(['userDetail', 'anak'])->findOrFail($id);
+        $data['santri'] = Santri::whereNull('orangtua_id')
+            ->orWhere('orangtua_id', $id)
+            ->orderBy('nama')
+            ->get();
+        $data['selectedSantriIds'] = $data['user']->anak->pluck('id')->toArray();
 
         return view('users.editortu', $data);
     }
@@ -146,7 +159,15 @@ class UserController extends Controller
             'alamat' => 'required',
             'tempat_lahir' => 'required', 
             'tanggal_lahir' => 'required',
-            'santri_id' => 'required',
+            'santri_id' => 'required|array|min:1',
+            'santri_id.*' => [
+                'integer',
+                Rule::exists('santri', 'id')->where(function ($query) use ($id) {
+                    $query->where(function ($query) use ($id) {
+                        $query->whereNull('orangtua_id')->orWhere('orangtua_id', $id);
+                    });
+                }),
+            ],
         ];
 
         $customMessages = [
@@ -163,7 +184,10 @@ class UserController extends Controller
             'nohp' => 'Field nomor telp belum diisi!',
             'noinduk'=> 'Field nomor induk belum diisi!',
             'alamat' => 'Field alamat belum diisi!',
-            'santri_id' => 'Santri belum dipilih!',
+            'santri_id.required' => 'Santri belum dipilih!',
+            'santri_id.array' => 'Pilihan santri tidak valid!',
+            'santri_id.min' => 'Santri belum dipilih!',
+            'santri_id.*.exists' => 'Santri yang dipilih sudah memiliki orang tua atau tidak tersedia!',
             
         ];
 
@@ -187,18 +211,36 @@ class UserController extends Controller
             ]);
         }
 
-        // Update the associated user detail
-            $user->userDetail->update([
+        $userDetail = $user->userDetail()->updateOrCreate(
+            ['user_id' => $user->id],
+            [
                 'noinduk' => $request->noinduk,
                 'nama_lengkap' => $request->nama_lengkap,
                 'nohp' => $request->nohp,
                 'alamat' => $request->alamat,
                 'tempat_lahir' => $request->tempat_lahir,
                 'tanggal_lahir' => $request->tanggal_lahir,
-                'santri_id' => $request->santri_id,
-            ]);
+            ]
+        );
+
+        if ($user->id_detail !== $userDetail->id) {
+            $user->id_detail = $userDetail->id;
+            $user->save();
+        }
+
+        $this->syncAnakOrangtua($user, $request->input('santri_id', []));
 
         return redirect('/users')->with('message', 'Data Orang Tua telah diperbarui');
+    }
+
+    private function syncAnakOrangtua(User $user, array $santriIds)
+    {
+        Santri::where('orangtua_id', $user->id)
+            ->whereNotIn('id', $santriIds)
+            ->update(['orangtua_id' => null]);
+
+        Santri::whereIn('id', $santriIds)
+            ->update(['orangtua_id' => $user->id]);
     }
     /**
      * Store a newly created resource in storage.

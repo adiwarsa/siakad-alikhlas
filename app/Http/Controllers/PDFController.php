@@ -11,6 +11,10 @@ class PDFController extends Controller
 {
     public function generatePDF($santriId, $semester)
     {
+        if (auth()->user()->hasRole('orangtua') && !auth()->user()->anak()->whereKey($santriId)->exists()) {
+            abort(403);
+        }
+
         $rapot = Rapot::where('santri_id', $santriId)
         ->where('semester', $semester)
         ->first(); // Assuming you only want one record; use get() if you expect multiple records

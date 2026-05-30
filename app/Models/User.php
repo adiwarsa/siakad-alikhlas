@@ -53,6 +53,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserDetail::class, 'user_id');
     }
 
+    public function anak()
+    {
+        return $this->hasMany(Santri::class, 'orangtua_id');
+    }
+
     protected static function boot()
     {
         parent::boot();

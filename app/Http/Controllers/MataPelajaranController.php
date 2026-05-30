@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
+use App\Models\Jadwal;
 use App\Models\MataPelajaran;
 use App\Models\Nilai;
 use App\Models\User;
@@ -27,10 +28,32 @@ class MataPelajaranController extends Controller
             $user = auth()->user();
             $data['mapel'] = MataPelajaran::where('id_user', $user->id)->get();
         } elseif (auth()->user()->hasRole('orangtua')) {
-            // Fetch Jadwal data where kelas_id matches the user's userDetail->santri_id
-            $data['pageTitle'] = 'Jadwal Pelajaran';
+            $data['pageTitle'] = 'Mata Pelajaran';
             $user = auth()->user();
-            $data['mapel'] = MataPelajaran::where('id_kelas', $user->userDetail->anak->id_kelas)->get();
+            $anak = $user->anak()->with('kelas')->orderBy('nama')->get();
+            $data['mapelAnak'] = $anak->flatMap(function ($santri) {
+                $mapelIdsFromJadwal = Jadwal::where('kelas_id', $santri->id_kelas)
+                    ->pluck('mapel_id')
+                    ->unique();
+
+                return MataPelajaran::with(['user.userDetail', 'kelas'])
+                    ->where(function ($query) use ($santri, $mapelIdsFromJadwal) {
+                        $query->where('id_kelas', $santri->id_kelas);
+
+                        if ($mapelIdsFromJadwal->isNotEmpty()) {
+                            $query->orWhereIn('id', $mapelIdsFromJadwal);
+                        }
+                    })
+                    ->get()
+                    ->unique('id')
+                    ->values()
+                    ->map(function ($mapel) use ($santri) {
+                        return [
+                            'santri' => $santri,
+                            'mapel' => $mapel,
+                        ];
+                    });
+            });
             return view('orangtua.mapel.index', $data);
         }
         return view('mapel.index', $data);

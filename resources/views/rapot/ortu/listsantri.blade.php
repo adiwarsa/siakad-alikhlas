@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('style')
-    <!-- CSS Libraries -->
     <link rel="stylesheet" href="{{ asset('assets/modules/datatables/datatables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
@@ -10,14 +9,14 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>{{ $pageTitle }} {{ $namakelas }}</h1>
+            <h1>{{ $pageTitle }}</h1>
         </div>
 
         @if(session('message'))
         <div class="alert alert-success alert-dismissible show fade">
             <div class="alert-body">
                 <button class="close" data-dismiss="alert">
-                    <span>×</span>
+                    <span>&times;</span>
                 </button>
                 {{ session('message') }}
             </div>
@@ -36,9 +35,7 @@
                                 <table class="table table-striped" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">
-                                                No.
-                                            </th>
+                                            <th class="text-center">No.</th>
                                             <th>NIS</th>
                                             <th>Nama</th>
                                             <th>Jenis Kelamin</th>
@@ -49,52 +46,26 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php
-                                            $no = 1
-                                        @endphp
-                                        
-                                       
-                                        <tr>
-                                            <td class="text-center">{{ $no++ }}</td>
-                                            <td>{{ $santri->nis }}</td>
-                                            <td>
-                                                <a href="" data-toggle="modal" data-target="#exampleModal{{ $santri->id }}">
-                                                    {{ $santri->nama }}
-                                                </a>
-                                            </td>
-                                            <td>{{ $santri->jenis_kelamin }}</td>
-                                            <td>{{ $santri->tempat_lahir }}, {{ $santri->formatted_tanggal_lahir }}</td>
-                                            <td>{{ $santri->kelas->kelas}}</td>
-                                            <td>{{ $santri->kelas->madrasah}}</td>
-                                            <td>{{ $santri->tahun_masuk}}</td>
-                                            
-                                        </tr>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal{{ $santri->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{ $santri->id }}" aria-hidden="true" data-backdrop="false">
-                                            <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Lihat Rapot : {{ $santri->nama }}</h5>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="container-fluid mt-4">
-                                                        <div class="row">
-                                                            <div class="col-md-6 text-center">
-                                                                <a href="{{ route('showrapot.santri', ['santriId' => $santri->id, 'semester' => '1']) }}" class="btn btn-success">Semester 1</a>
-                                                            </div>
-                                                            <div class="col-md-6 text-center">
-                                                                <a href="{{ route('showrapot.santri', ['santriId' => $santri->id, 'semester' => '2']) }}" class="btn btn-success">Semester 2</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-
+                                        @forelse ($santri as $str)
+                                            <tr>
+                                                <td class="text-center">{{ $loop->iteration }}</td>
+                                                <td>{{ $str->nis }}</td>
+                                                <td>
+                                                    <a href="" data-toggle="modal" data-target="#exampleModal{{ $str->id }}">
+                                                        {{ $str->nama }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ $str->jenis_kelamin }}</td>
+                                                <td>{{ $str->tempat_lahir }}, {{ $str->formatted_tanggal_lahir }}</td>
+                                                <td>{{ $str->kelas->kelas }}</td>
+                                                <td>{{ $str->kelas->madrasah }}</td>
+                                                <td>{{ $str->tahun_masuk }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="8" class="text-center">Belum ada santri yang terhubung dengan akun ini.</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -105,15 +76,38 @@
         </div>
     </section>
 
+    @foreach ($santri as $str)
+        <div class="modal fade" id="exampleModal{{ $str->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{ $str->id }}" aria-hidden="true" data-backdrop="false">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel{{ $str->id }}">Lihat Rapot : {{ $str->nama }}</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid mt-4">
+                            <div class="row">
+                                <div class="col-md-6 text-center">
+                                    <a href="{{ route('showrapot.santri', ['santriId' => $str->id, 'semester' => '1']) }}" class="btn btn-success">Semester 1</a>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <a href="{{ route('showrapot.santri', ['santriId' => $str->id, 'semester' => '2']) }}" class="btn btn-success">Semester 2</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
 
 @section('script')
-    <!-- JS Libraies -->
     <script src="{{ asset('assets/modules/datatables/datatables.min.js') }}"></script>
     <script src="{{ asset('assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
     <script src="{{ asset('assets/modules/jquery-ui/jquery-ui.min.js') }}"></script>
-
-    <!-- Page Specific JS File -->
     <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
 @endsection

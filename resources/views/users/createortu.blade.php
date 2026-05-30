@@ -165,12 +165,21 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="santri">Santri</label>
-                                    <select class="form-control selectric @error('santri_id') is-invalid @enderror" name="santri_id">
+                                    @php
+                                        $selectedSantri = old('santri_id', []);
+                                    @endphp
+                                    <select class="form-control selectric @error('santri_id') is-invalid @enderror @error('santri_id.*') is-invalid @enderror" name="santri_id[]" multiple>
                                         @foreach ($santri as $str)
-                                        <option value="{{ $str->id }}" {{ old('santri_id', $str->id) == $str->id ? 'selected' : '' }}>{{ $str->nama }}</option>
+                                        <option value="{{ $str->id }}" {{ in_array($str->id, $selectedSantri) ? 'selected' : '' }}>{{ $str->nama }}</option>
                                         @endforeach
                                     </select>
+                                    <small class="form-text text-muted">Pilih satu atau lebih santri untuk akun orang tua ini.</small>
                                     @error('santri_id')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                    @error('santri_id.*')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>

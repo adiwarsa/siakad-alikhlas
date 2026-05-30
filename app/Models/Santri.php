@@ -16,6 +16,7 @@ class Santri extends Model
     protected $table = 'santri';
     protected $fillable = [
         'id_kelas',
+        'orangtua_id',
         'nis',
         'nama', 
         'jenis_kelamin',
@@ -55,6 +56,12 @@ class Santri extends Model
         return $this->belongsTo(Kelas::class, 'id_kelas', 'id');
 
     }
+
+    public function orangtua()
+    {
+        return $this->belongsTo(User::class, 'orangtua_id', 'id');
+    }
+
     public function rapots()
     {
         return $this->hasMany(Rapot::class, 'santri_id');
@@ -62,6 +69,6 @@ class Santri extends Model
     
     public function absensi()
     {
-        return $this->hasMany(Absensi::class, 'santri_id');
+        return $this->hasMany(AbsensiSantri::class, 'santri_id');
     }
 }

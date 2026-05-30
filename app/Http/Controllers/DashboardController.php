@@ -41,13 +41,20 @@ class DashboardController extends Controller
             $data['jadwal'] = Jadwal::where('guru_id', $guru->id)->where('status', 0)->get();
         } elseif (auth()->user()->hasRole('orangtua')) {
             $ortu = Auth::user();
-            $idsantri = $ortu->userDetail->santri_id;
-            $data['santri'] = Santri::where('id', $idsantri)->first();
-            $data['jadwal'] = Jadwal::whereHas('kelas', function ($query) use ($ortu) {
-                $query->where('id', $ortu->userDetail->anak->id_kelas);
-            })
-            ->where('status', 0)
-            ->get();
+            $anak = $ortu->anak()->with(['kelas.guruwali'])->orderBy('nama')->get();
+            $data['santri'] = $anak;
+            $data['jadwalAnak'] = $anak->flatMap(function ($santri) {
+                return Jadwal::with(['hari', 'mapel', 'guru', 'kelas'])
+                    ->where('kelas_id', $santri->id_kelas)
+                    ->where('status', 0)
+                    ->get()
+                    ->map(function ($jadwal) use ($santri) {
+                        return [
+                            'santri' => $santri,
+                            'jadwal' => $jadwal,
+                        ];
+                    });
+            });
             return view('dashboardortu', $data);
         }
         return view('dashboard', $data);

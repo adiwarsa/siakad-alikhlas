@@ -11,7 +11,7 @@
             <h1>{{ $pageTitle }}</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item"><a href="{{ url('/users') }}">Users</a></div>
-                <div class="breadcrumb-item active">Edit Data Guru</div>
+                <div class="breadcrumb-item active">Edit Data Orang Tua</div>
             </div>
         </div>
 
@@ -32,7 +32,7 @@
                 <div class="col-12 col-md-8">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Tambah Data Guru</h4>
+                            <h4>Edit Data Orang Tua</h4>
                         </div>
                         <div class="card-body">
                             <form method="POST" action="{{ route('ortu.update', ['id' => $user->id]) }}" class="needs-validation" novalidate="">
@@ -166,12 +166,21 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="santri">Santri</label>
-                                    <select class="form-control selectric @error('santri_id') is-invalid @enderror" name="santri_id">
+                                    @php
+                                        $selectedSantri = old('santri_id', $selectedSantriIds ?? []);
+                                    @endphp
+                                    <select class="form-control selectric @error('santri_id') is-invalid @enderror @error('santri_id.*') is-invalid @enderror" name="santri_id[]" multiple>
                                         @foreach ($santri as $str)
-                                        <option value="{{ $str->id }}" {{ old('santri_id', $user->userDetail->santri_id) == $str->id ? 'selected' : '' }}>{{ $str->nama }}</option>
+                                        <option value="{{ $str->id }}" {{ in_array($str->id, $selectedSantri) ? 'selected' : '' }}>{{ $str->nama }}</option>
                                         @endforeach
                                     </select>
+                                    <small class="form-text text-muted">Pilih satu atau lebih santri untuk akun orang tua ini.</small>
                                     @error('santri_id')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                    @error('santri_id.*')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>

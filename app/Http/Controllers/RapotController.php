@@ -39,23 +39,7 @@ class RapotController extends Controller
 
         $data['pageTitle'] = 'Santri';
         $user = Auth::user();
-        
-        // Retrieve the Santri model based on the user's santri_id
-        $data['santri'] = Santri::where('id', $user->userDetail->santri_id)->first();
-        
-        // Check if the Santri model was found
-        if (!$data['santri']) {
-            // Handle the case where the Santri model was not found
-            // For example, you can return a 404 response or handle it differently
-            abort(404);
-        }
-        
-        // Retrieve the related class (kelas)
-        $selectedClass = $data['santri']->kelas;
-        
-        // Now, you can access the 'kelas' property
-        $data['namakelas'] = $selectedClass->kelas;
-        $data['kelasId'] = $selectedClass->id;
+        $data['santri'] = $user->anak()->with('kelas')->orderBy('nama')->get();
         
         return view('rapot.ortu.listsantri', $data);
     }
@@ -155,6 +139,9 @@ class RapotController extends Controller
                 $predikatKeterampilan = 'D';
             }
         
+            // Calculate rata-rata (average of pengetahuan and keterampilan)
+            $rataRata = ($nilaiPengetahuan + $nilaiKeterampilan) / 2;
+            
             NilaiRapot::create([
                 'rapot_id' => $rapot->id,
                 'guru_id' => $request->wali_id,
@@ -163,6 +150,7 @@ class RapotController extends Controller
                 'nilaiketerampilan' => $nilaiKeterampilan,
                 'predikatpengetahuan' => $predikatPengetahuan,
                 'predikatketerampilan' => $predikatKeterampilan,
+                'rata_rata' => round($rataRata, 2),
             ]);
         }
         return redirect('/rapot/' . $request->kelas_id . '/santri')->with('message', 'Data Nilai Rapot telah ditambahkan');
@@ -170,6 +158,8 @@ class RapotController extends Controller
 
     public function rapotSantri($santriId, $semester)
     {
+        $this->authorizeOrangtuaSantri($santriId);
+
         $rapot = Rapot::where('santri_id', $santriId)
         ->where('semester', $semester)
         ->first(); // Assuming you only want one record; use get() if you expect multiple records
@@ -259,5 +249,12 @@ class RapotController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function authorizeOrangtuaSantri($santriId)
+    {
+        if (auth()->user()->hasRole('orangtua') && !auth()->user()->anak()->whereKey($santriId)->exists()) {
+            abort(403);
+        }
     }
 }

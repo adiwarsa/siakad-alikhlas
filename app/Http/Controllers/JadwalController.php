@@ -32,12 +32,20 @@ class JadwalController extends Controller
                 $query->where('guru_id', auth()->user()->id);
             })->get();
         } elseif (auth()->user()->hasRole('orangtua')) {
-            // Fetch Jadwal data where kelas_id matches the user's userDetail->santri_id
             $data['pageTitle'] = 'Jadwal Pelajaran';
             $user = auth()->user();
-            $data['jadwal'] = Jadwal::whereHas('kelas', function ($query) use ($user) {
-                $query->where('id', $user->userDetail->anak->id_kelas);
-            })->get();
+            $anak = $user->anak()->with('kelas')->orderBy('nama')->get();
+            $data['jadwalAnak'] = $anak->flatMap(function ($santri) {
+                return Jadwal::with(['hari', 'mapel', 'guru', 'kelas', 'absensi'])
+                    ->where('kelas_id', $santri->id_kelas)
+                    ->get()
+                    ->map(function ($jadwal) use ($santri) {
+                        return [
+                            'santri' => $santri,
+                            'jadwal' => $jadwal,
+                        ];
+                    });
+            });
             return view('orangtua.jadwal.index', $data);
         }
         
