@@ -2,6 +2,12 @@
 
 Dokumen ini berisi daftar folder/file yang berubah untuk update cPanel, serta akun yang bisa dipakai untuk mengecek fitur orang tua punya lebih dari satu anak.
 
+## Update Terakhir
+
+- Dashboard orang tua sekarang menampilkan ringkasan total anak, jadwal aktif, kelas anak, dan wali kelas.
+- Card biodata anak di dashboard orang tua bisa diklik untuk membuka detail lengkap santri.
+- Modal detail biodata anak sudah diperbaiki agar backdrop tidak menutupi halaman atau tertinggal setelah modal ditutup.
+
 ## Folder Yang Berubah
 
 Upload/replace folder berikut ke cPanel:
@@ -43,6 +49,11 @@ Kalau ingin upload file satu-satu, file yang berubah adalah:
 - `resources/views/rapot/ortu/listsantri.blade.php`
 - `resources/views/users/createortu.blade.php`
 - `resources/views/users/editortu.blade.php`
+
+Untuk update UI dashboard orang tua terbaru saja, minimal replace:
+
+- `resources/views/dashboardortu.blade.php`
+- `update.md`
 
 ## Perintah Setelah Upload
 
