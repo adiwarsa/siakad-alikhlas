@@ -66,6 +66,45 @@ class SantriSeeder extends Seeder
                 'tahun_masuk' => 2021,
                 'created_at' => '2025-11-25 18:13:56',
                 'updated_at' => '2025-11-26 12:32:00'
+            ],
+            [
+                'id' => 6,
+                'id_kelas' => 1,
+                'orangtua_id' => null,
+                'nis' => '202605300001',
+                'nama' => 'Nabila Rahma',
+                'jenis_kelamin' => 'Perempuan',
+                'tempat_lahir' => 'Denpasar',
+                'tanggal_lahir' => '2012-04-12',
+                'tahun_masuk' => 2024,
+                'created_at' => '2026-05-30 00:00:00',
+                'updated_at' => '2026-05-30 00:00:00'
+            ],
+            [
+                'id' => 7,
+                'id_kelas' => 1,
+                'orangtua_id' => null,
+                'nis' => '202605300002',
+                'nama' => 'Rizky Maulana',
+                'jenis_kelamin' => 'Laki - Laki',
+                'tempat_lahir' => 'Denpasar',
+                'tanggal_lahir' => '2011-09-18',
+                'tahun_masuk' => 2024,
+                'created_at' => '2026-05-30 00:00:00',
+                'updated_at' => '2026-05-30 00:00:00'
+            ],
+            [
+                'id' => 8,
+                'id_kelas' => 1,
+                'orangtua_id' => null,
+                'nis' => '202605300003',
+                'nama' => 'Siti Aisyah',
+                'jenis_kelamin' => 'Perempuan',
+                'tempat_lahir' => 'Denpasar',
+                'tanggal_lahir' => '2012-12-03',
+                'tahun_masuk' => 2024,
+                'created_at' => '2026-05-30 00:00:00',
+                'updated_at' => '2026-05-30 00:00:00'
             ]
         ];
 

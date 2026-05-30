@@ -26,6 +26,7 @@ Kalau ingin upload file satu-satu, file yang berubah adalah:
 - `database/migrations/2023_10_06_000003_create_santri_table.php`
 - `database/migrations/2023_10_06_000005_create_userdetail_table.php`
 - `database/migrations/2026_05_30_000001_move_orangtua_relation_to_santri_table.php`
+- `database/migrations/2026_05_30_000002_add_available_santri_for_parent_test.php`
 - `database/seeders/AbsensiSantriSeeder.php`
 - `database/seeders/JadwalSeeder.php`
 - `database/seeders/KelasSeeder.php`
@@ -61,6 +62,7 @@ Migration baru akan:
 - Menambahkan kolom `orangtua_id` pada tabel `santri`.
 - Memindahkan relasi lama dari `userdetail.santri_id` ke `santri.orangtua_id`.
 - Menghapus kolom lama `userdetail.santri_id`.
+- Menambahkan beberapa santri kosong untuk test tambah orang tua multi-anak pada database existing.
 
 ## Akun Untuk Cek Update
 
@@ -93,5 +95,12 @@ Lalu cek menu:
 - Rapot: tampil list semua anak milik orang tua.
 - Jadwal: ada kolom santri agar jelas jadwal milik anak siapa.
 - Mapel: ada kolom santri agar jelas mapel milik anak siapa.
+
+Untuk test membuat orang tua baru dari admin, buka menu tambah orang tua lalu pilih lebih dari satu santri yang belum punya orang tua. Data seeder/migration menyediakan santri kosong berikut:
+
+- `Tarataktum`
+- `Nabila Rahma`
+- `Rizky Maulana`
+- `Siti Aisyah`
 
 Catatan: kalau database production tidak di-reset dan tidak memakai seeder baru, password akun mengikuti data production yang sudah ada.
