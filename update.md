@@ -91,7 +91,7 @@ password: password
 
 Lalu cek menu:
 
-- Dashboard: tampil lebih dari satu biodata anak.
+- Dashboard: tampil lebih dari satu biodata anak, dan card biodata bisa diklik untuk melihat detail.
 - Rapot: tampil list semua anak milik orang tua.
 - Jadwal: ada kolom santri agar jelas jadwal milik anak siapa.
 - Mapel: ada kolom santri agar jelas mapel milik anak siapa.

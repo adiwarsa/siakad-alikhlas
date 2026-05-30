@@ -19,12 +19,36 @@
             border: 1px solid #edf0f5;
             box-shadow: 0 4px 18px rgba(24, 38, 75, .05);
             height: calc(100% - 30px);
+            transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+        }
+
+        .child-card.is-clickable {
+            cursor: pointer;
+        }
+
+        .child-card.is-clickable:hover,
+        .child-card.is-clickable:focus {
+            border-color: #6777ef;
+            box-shadow: 0 10px 26px rgba(103, 119, 239, .16);
+            outline: 0;
+            transform: translateY(-3px);
         }
 
         .child-card .card-header {
             align-items: center;
             border-bottom: 1px solid #edf0f5;
             min-height: 76px;
+        }
+
+        .child-card .card-footer {
+            align-items: center;
+            background: #fff;
+            border-top: 1px solid #edf0f5;
+            color: #6777ef;
+            display: flex;
+            font-size: 13px;
+            font-weight: 700;
+            justify-content: space-between;
         }
 
         .child-avatar {
@@ -124,6 +148,89 @@
             color: #6777ef;
         }
 
+        .child-detail-modal .modal-header {
+            align-items: center;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .modal-heading {
+            align-items: center;
+            display: flex;
+            min-width: 0;
+        }
+
+        .detail-avatar {
+            align-items: center;
+            background: #eef2ff;
+            border-radius: 8px;
+            color: #6777ef;
+            display: flex;
+            flex: 0 0 52px;
+            font-size: 22px;
+            height: 52px;
+            justify-content: center;
+            margin-right: 14px;
+            width: 52px;
+        }
+
+        .modal-heading .modal-title {
+            font-size: 17px;
+            line-height: 1.35;
+            margin-bottom: 2px;
+            overflow-wrap: anywhere;
+        }
+
+        .detail-stat {
+            border: 1px solid #edf0f5;
+            border-radius: 8px;
+            height: calc(100% - 16px);
+            margin-bottom: 16px;
+            padding: 16px;
+        }
+
+        .detail-stat .label {
+            color: #6c757d;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0;
+            text-transform: uppercase;
+        }
+
+        .detail-stat .value {
+            color: #34395e;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.35;
+            margin-top: 6px;
+            overflow-wrap: anywhere;
+        }
+
+        .detail-table {
+            margin-bottom: 0;
+        }
+
+        .detail-table th {
+            color: #6c757d;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            width: 38%;
+        }
+
+        .detail-table th,
+        .detail-table td {
+            border-color: #edf0f5;
+            padding: 12px 0;
+            vertical-align: top;
+        }
+
+        .detail-table td {
+            color: #34395e;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
         @media (max-width: 575.98px) {
             .section-header {
                 align-items: flex-start;
@@ -146,6 +253,16 @@
                 display: block;
                 margin-top: 4px;
                 text-align: left;
+            }
+
+            .detail-table th,
+            .detail-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .detail-table td {
+                padding-top: 2px;
             }
         }
     </style>
@@ -236,10 +353,10 @@
                 @php
                     $kelas = optional($anak->kelas);
                     $waliKelas = optional($kelas->guruwali)->name ?: '-';
-                    $namaKelas = trim(($kelas->kelas ?: '-') . ' ' . ($kelas->madrasah ?: ''));
+                    $namaKelas = trim(($kelas->kelas ?: '') . ' ' . ($kelas->madrasah ?: '')) ?: '-';
                 @endphp
                 <div class="col-xl-4 col-lg-6 col-md-6 col-12">
-                    <div class="card child-card">
+                    <div class="card child-card is-clickable" data-toggle="modal" data-target="#detailAnak{{ $anak->id }}" role="button" tabindex="0" aria-label="Detail biodata {{ $anak->nama }}">
                         <div class="card-header">
                             <div class="child-avatar">
                                 <i class="fas fa-user-graduate"></i>
@@ -265,6 +382,10 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="card-footer">
+                            <span>Detail</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
                     </div>
                 </div>
             @empty
@@ -275,6 +396,98 @@
                 </div>
             @endforelse
         </div>
+
+        @foreach ($santri as $anak)
+            @php
+                $kelas = optional($anak->kelas);
+                $waliKelas = optional($kelas->guruwali)->name ?: '-';
+                $namaKelas = trim(($kelas->kelas ?: '') . ' ' . ($kelas->madrasah ?: '')) ?: '-';
+                $jadwalCount = $jadwalAnak->filter(function ($row) use ($anak) {
+                    return $row['santri']->id == $anak->id;
+                })->count();
+            @endphp
+            <div class="modal fade child-detail-modal" id="detailAnak{{ $anak->id }}" tabindex="-1" role="dialog" aria-labelledby="detailAnakLabel{{ $anak->id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-heading">
+                                <div class="detail-avatar">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div>
+                                    <h5 class="modal-title" id="detailAnakLabel{{ $anak->id }}">{{ $anak->nama }}</h5>
+                                    <span class="text-muted">NIS {{ $anak->nis }}</span>
+                                </div>
+                            </div>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="detail-stat">
+                                        <div class="label">Kelas</div>
+                                        <div class="value">{{ $namaKelas }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="detail-stat">
+                                        <div class="label">Jadwal Aktif</div>
+                                        <div class="value">{{ $jadwalCount }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="detail-stat">
+                                        <div class="label">Tahun Masuk</div>
+                                        <div class="value">{{ $anak->tahun_masuk ?: '-' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table detail-table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Nama Santri</th>
+                                            <td>{{ $anak->nama }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>No Induk Santri</th>
+                                            <td>{{ $anak->nis }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Jenis Kelamin</th>
+                                            <td>{{ $anak->jenis_kelamin ?: '-' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tempat Lahir</th>
+                                            <td>{{ $anak->tempat_lahir ?: '-' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tanggal Lahir</th>
+                                            <td>{{ $anak->formatted_tanggal_lahir ?: '-' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Kelas</th>
+                                            <td>{{ $namaKelas }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Wali Kelas</th>
+                                            <td>{{ $waliKelas }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tahun Pelajaran</th>
+                                            <td>{{ $anak->tahun_masuk ?: '-' }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
         <div class="card schedule-card">
             <div class="card-header">
@@ -344,4 +557,12 @@
     <script src="{{ asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
     <script src="{{ asset('assets/modules/jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
+    <script>
+        $('.child-card.is-clickable').on('keydown', function (event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                $(this).trigger('click');
+            }
+        });
+    </script>
 @endsection
