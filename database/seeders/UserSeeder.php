@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
                 'id_detail' => 4,
                 'name' => 'bapaktuturu',
                 'email' => 'ortu@gmail.com',
-                'username' => 'orang tua',
+                'username' => 'orangtua',
                 'email_verified_at' => '2026-01-09 22:24:43',
                 'password' => Hash::make('password'),
                 'created_at' => '2025-09-17 15:34:45',

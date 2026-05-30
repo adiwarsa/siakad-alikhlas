@@ -76,14 +76,14 @@ Daftar username:
 
 - `admin` - administrator.
 - `jufri` - guru/wali kelas.
-- `orang tua` - orang tua dengan contoh multi-anak, santri `ALFIN DIANUL HAKKIs` dan `Tuturu`.
+- `orangtua` - orang tua dengan contoh multi-anak, santri `ALFIN DIANUL HAKKIs` dan `Tuturu`.
 - `bapaktap` - orang tua santri `Tap`.
 - `azrul` - guru.
 
 Untuk melihat update multi-anak, login sebagai:
 
 ```text
-username: orang tua
+username: orangtua
 password: password
 ```
 
